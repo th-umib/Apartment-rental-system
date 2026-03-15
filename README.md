@@ -90,6 +90,7 @@ This structure keeps the project organized and separates the application logic f
 ## Technologies Used
 
 - JavaScript
+- Node.js
 - Express.js
 - PostgreSQL
 - bcrypt
