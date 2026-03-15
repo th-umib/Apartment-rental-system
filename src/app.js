@@ -1,0 +1,1 @@
+console.log("Apartment Rental Management System");
