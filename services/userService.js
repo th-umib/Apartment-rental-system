@@ -1,14 +1,21 @@
-
-
-module.exports = UserService;
+const FileRepository = require("../Data/FileRepository");
 
 class UserService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+    constructor() {
+        this.userRepository = new FileRepository("./Data/users.csv");
     }
 
-    async register(userData) {
-        return await this.userRepository.create(userData);
+    getAllUsers() {
+        return this.userRepository.getAll();
+    }
+
+    getUserById(id) {
+        return this.userRepository.getById(id);
+    }
+
+    addUser(user) {
+        this.userRepository.add(user);
+        this.userRepository.save();
     }
 }
 
