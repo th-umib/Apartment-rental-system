@@ -1,0 +1,4 @@
+id,title,city,address,pricePerNight,isAvailable
+1,Modern Apartment,Prishtine,Rruga B,45,true
+2,City Center Flat,Mitrovice,Qender,35,true
+3,Luxury Apartment,Peje,Rruga e Dukagjinit,60,false

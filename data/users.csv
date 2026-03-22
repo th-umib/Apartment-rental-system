@@ -1,0 +1,3 @@
+id,fullName,email,password,role
+1,Tringa Hyseni,tringa.hyseni@umib.net.com,123456,Tenant
+2,Flutura Hyseni,flutura.hyseni@umib.net,123456,Owner
