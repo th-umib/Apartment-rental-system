@@ -1,16 +1,24 @@
 {
   "name": "apartment-rental-system",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "Layered apartment rental management system using Node.js, Express.js and CSV file storage",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "node app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "apartment",
+    "rental",
+    "nodejs",
+    "express",
+    "csv",
+    "layered-architecture"
+  ],
+  "author": "Tringa Hyseni",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
