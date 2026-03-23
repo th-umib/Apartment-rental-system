@@ -1,5 +1,5 @@
 const path = require("path");
-const FileRepository = require("../Data/FileRepository");
+const FileRepository = require("./FileRepository");
 
 class UserService {
   constructor() {
