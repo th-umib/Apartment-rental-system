@@ -1,19 +1,19 @@
 class IRepository {
-    getAll() {
-        throw new Error("Method not implemented");
-    }
+  getAll() {
+    throw new Error("Method getAll() must be implemented");
+  }
 
-    getById(id) {
-        throw new Error("Method not implemented");
-    }
+  getById(id) {
+    throw new Error("Method getById(id) must be implemented");
+  }
 
-    add(item) {
-        throw new Error("Method not implemented");
-    }
+  add(entity) {
+    throw new Error("Method add(entity) must be implemented");
+  }
 
-    save() {
-        throw new Error("Method not implemented");
-    }
+  save() {
+    throw new Error("Method save() must be implemented");
+  }
 }
 
 module.exports = IRepository;
