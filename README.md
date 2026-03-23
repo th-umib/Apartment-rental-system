@@ -1,124 +1,207 @@
 # Apartment Rental Management System
 
-**Author:** Tringa Hyseni
-**Technologies:** JavaScript, Express.js, PostgreSQL, bcrypt, JWT
+A layered web application for managing apartments, users, bookings, and reviews in one organized rental platform.
 
-## Project Overview
+---
 
-Apartment Rental Management System is a software project designed to manage apartment listings, reservations, and rental services.
+## Overview
 
-The system is inspired by simplified versions of platforms such as Airbnb. It allows apartment owners to publish their properties, tenants to search and reserve apartments, and administrators to manage users and monitor system activity.
+**Apartment Rental Management System** is a software project developed to simplify the management of apartment rentals, reservations, and user activity.
 
-The goal of the project is to provide a centralized platform that simplifies the process of managing rental apartments, reservations, and availability.
+The system is inspired by the basic workflow of rental platforms such as Airbnb, where property owners can publish apartments, users can browse available listings, and bookings can be managed in a structured way.
 
-## Main Goals of the System
+This project is designed to help manage:
+- apartment listings
+- users and roles
+- reservations and booking status
+- reviews and feedback
+- apartment availability
+- future admin control and reporting
 
-The main objective of this application is to manage the core operations of an apartment rental platform, including:
+The main goal of the platform is to provide one centralized system where rental operations can be handled more efficiently and more clearly.
 
-- User registration and authentication
-- Apartment listing and management
-- Searching apartments by filters
-- Apartment booking and reservation tracking
-- Preventing double bookings
-- Managing users and platform activity
+---
 
-The system helps organize rental services and improves efficiency for both apartment owners and tenants.
+## Main Idea
 
-## Planned Features
+The purpose of this system is to make apartment rental management easier, faster, and better organized.
 
-### Authentication and Security
+A user should be able to:
+- browse available apartments
+- view apartment details
+- register and log in
+- make a booking request
+- manage their reservations
+- leave reviews after using an apartment
 
-- Secure user registration
-- Login functionality
-- Password hashing using **bcrypt**
-- Authentication using **JWT tokens**
-- Role-based authorization (Admin, Owner, Tenant)
+At the same time, apartment owners and administrators should be able to manage listings, track reservations, and monitor platform activity.
 
-### Apartment Management
+This makes the system practical for real rental workflows, where users need a simple booking experience and the business side needs clear control over apartments and reservations.
 
-- Add new apartments
-- Edit apartment details
-- Delete apartments
-- Save apartment information including price, city, and description
+---
 
-### Apartment Search
+## Features
 
-Tenants will be able to search apartments using filters such as:
+### For Users
+- Browse available apartments
+- View apartment details and descriptions
+- Register and log in to the platform
+- Make apartment booking requests
+- Track booking status
+- Leave reviews and ratings
 
-- City
-- Price range
-- Availability
+### For Apartment Owners / Management
+- Add and manage apartment listings
+- Update apartment information
+- Control apartment availability
+- Review booking requests
+- Manage reservations more efficiently
 
-If no results are found, the system will display a **"No results found"** message.
+### Planned System Features
+- Authentication with role-based access
+- Apartment availability tracking
+- Booking approval and status management
+- Review and rating system
+- User management for admin
+- Reporting and future analytics support
 
-### Booking Management
+---
 
-- Create apartment reservations
-- Choose rental dates
-- Prevent double booking for the same apartment
-- Booking status tracking:
-  - Pending
-  - Approved
-  - Rejected
-  - Completed
+## Tech Stack
 
-### Admin Management
+| Layer | Technology | Purpose |
+|------|------------|---------|
+| Language | JavaScript | Core programming language used in the project |
+| Runtime | Node.js | Server-side runtime environment |
+| Framework | Express.js | Routing and backend request handling |
+| Storage / Persistence | CSV files / file-based storage | Simple data persistence for the current project structure |
+| Frontend | HTML, CSS | Basic user interface pages |
+| Architecture | Layered architecture | Separation of concerns between models, services, data, and UI |
+| Version Control | Git + GitHub | Source control and project collaboration |
 
-Administrators will be able to:
-
-- Manage users
-- Remove inappropriate accounts
-- Monitor system activity
+---
 
 ## Project Structure
 
-```text
-apartment-rental-system
-│
-├── src
-│   └── app.js
-│
-├── docs
-│   └── user-stories.md
-│
-├── README.md
-└── .gitignore
+```bash
+Apartment-rental-system/
+├── Models/                # Domain entities of the system
+├── UI/                    # Controllers, routes, and frontend-related structure
+├── confing/               # Configuration files
+├── data/                  # Repository layer and storage handling
+├── docs/                  # Project documentation
+├── middleware/            # Express middleware
+├── public/                # Static frontend assets
+├── services/              # Business logic layer
+├── .gitignore
+├── app.js                 # Main application entry
+├── package.json
+└── README.md
 ```
 
-This structure keeps the project organized and separates the application logic from documentation.
+---
 
-## Technologies Used
+## Project Architecture
 
-- JavaScript
-- Node.js
-- Express.js
-- PostgreSQL
-- bcrypt
-- jsonwebtoken (JWT)
-- Git
-- GitHub
+The project is organized using a layered architecture:
 
-## How to Use the Project
+- **Models** – represent the core entities such as users, apartments, bookings, and reviews
+- **Services** – contain the business logic and application rules
+- **Data** – manage repositories and data persistence
+- **UI** – handle routes, controllers, and interaction with the client side
+- **Middleware** – manage request processing, validation, and shared backend behavior
 
-This repository currently contains the initial project structure, documentation, and planned system modules.
+This structure improves readability, maintainability, and separation of concerns across the project.
 
-The project will be developed further with authentication, apartment management, booking logic, and administrative features.
+---
 
-## Project Status
+## Core Modules
 
-This project is currently in the **initial development phase**.
+### User Management
+The system supports user registration and login functionality and is planned to support role-based access for different types of users such as administrator, apartment owner, and tenant.
 
-At this stage the repository includes:
+### Apartment Management
+Apartment data can be organized and managed through dedicated models and services. Each apartment can include information such as title, location, price, description, and availability.
 
-- Initial project structure
-- Project documentation
-- User stories definition
-- Planned system modules and features
+### Booking Management
+The booking module is intended to manage reservations, rental dates, and booking status. A major goal of this part of the system is to avoid overlapping or double bookings for the same apartment.
 
-Future updates will include the implementation of authentication, apartment management, and booking modules.
+### Reviews
+Users can leave reviews for apartments after using the service, allowing the platform to include feedback and improve trust between tenants and apartment owners.
+
+---
+
+## Current Status
+
+**This project is currently in the development phase.**
+
+### Completed
+- project structure created
+- layered architecture organized
+- basic backend setup prepared
+- documentation folder included
+- models, services, data, UI, and middleware folders structured
+
+### In Progress
+- application logic implementation
+- apartment management features
+- booking flow development
+- user authentication
+- review handling
+- frontend integration and improvements
+
+---
+
+## How to Run the Project
+
+## 1. Clone the repository
+```bash
+git clone https://github.com/th-umib/Apartment-rental-system.git
+```
+
+```bash
+cd Apartment-rental-system
+```
+
+## 2. Install dependencies
+```bash
+npm install
+```
+
+## 3. Start the project
+```bash
+node app.js
+```
+
+If additional scripts are added later, they can also be used through `npm run ...` commands.
+
+---
+
+## Project Goals
+
+The main goals of this system are:
+- to simplify apartment listing management
+- to support a structured reservation process
+- to reduce booking conflicts
+- to organize users, apartments, and reviews in one place
+- to provide a maintainable and scalable academic software project
+
+---
+
+## Future Improvements
+
+- Full authentication and authorization
+- Better apartment filtering and search
+- Booking validation with date conflict prevention
+- Admin dashboard and user control
+- Improved frontend UI/UX
+- Database integration for larger scale persistence
+- Reporting and analytics features
+
+---
 
 ## Author
 
-Tringa Hyseni
+**Tringa Hyseni**  
 Software Engineering Student  
-University of Mitrovica “Isa Boletini”  
+University of Mitrovica “Isa Boletini”
