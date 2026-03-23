@@ -6,78 +6,74 @@ A layered web application for managing apartments, users, bookings, and reviews 
 
 ## Overview
 
-**Apartment Rental Management System** is a software project developed to simplify the management of apartment rentals, reservations, and user activity.
+**Apartment Rental Management System** is a semester project developed to organize and simplify the core processes of an apartment rental platform.
 
-The system is inspired by the basic workflow of rental platforms such as Airbnb, where property owners can publish apartments, users can browse available listings, and bookings can be managed in a structured way.
-
-This project is designed to help manage:
+The system is designed around a clear layered architecture and focuses on the management of:
 - apartment listings
 - users and roles
-- reservations and booking status
+- bookings and reservation flow
 - reviews and feedback
-- apartment availability
-- future admin control and reporting
-
-The main goal of the platform is to provide one centralized system where rental operations can be handled more efficiently and more clearly.
+- CSV-based data storage
+- project documentation and maintainable code structure
 
 ---
 
 ## Main Idea
 
-The purpose of this system is to make apartment rental management easier, faster, and better organized.
+The purpose of this system is to make apartment rental operations easier, more structured, and easier to maintain in code.
 
 A user should be able to:
 - browse available apartments
 - view apartment details
-- register and log in
-- make a booking request
-- manage their reservations
-- leave reviews after using an apartment
+- create booking requests
+- manage rental-related information
+- leave reviews for apartments
 
-At the same time, apartment owners and administrators should be able to manage listings, track reservations, and monitor platform activity.
+At the same time, the system is organized so that administrators or managers can maintain apartment data, monitor bookings, and extend the platform more easily in the future.
 
-This makes the system practical for real rental workflows, where users need a simple booking experience and the business side needs clear control over apartments and reservations.
+This makes the project useful both as a practical rental-management application and as an academic example of layered architecture, repository pattern, and documentation.
 
 ---
 
 ## Features
 
-### For Users
-- Browse available apartments
-- View apartment details and descriptions
-- Register and log in to the platform
-- Make apartment booking requests
-- Track booking status
-- Leave reviews and ratings
+### Core Functional Areas
+- User management
+- Apartment management
+- Booking management
+- Review handling
+- CSV file persistence
+- Layered project organization
 
-### For Apartment Owners / Management
-- Add and manage apartment listings
-- Update apartment information
-- Control apartment availability
-- Review booking requests
-- Manage reservations more efficiently
+### Current Project Capabilities
+- Organized structure with separate layers for Models, Services, Data, and UI
+- Repository Pattern using `IRepository` and `FileRepository`
+- CSV-based file storage for simple persistence
+- Express.js backend setup
+- Project documentation for architecture and UML
 
-### Planned System Features
-- Authentication with role-based access
-- Apartment availability tracking
-- Booking approval and status management
-- Review and rating system
-- User management for admin
-- Reporting and future analytics support
+### Planned Extensions
+- Full authentication and authorization
+- Better validation and error handling
+- Apartment filtering and search
+- Booking approval workflow
+- Role-based dashboard support
+- Improved frontend integration
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|------|------------|---------|
-| Language | JavaScript | Core programming language used in the project |
-| Runtime | Node.js | Server-side runtime environment |
+| Layer / Area | Technology | Purpose |
+|-------------|------------|---------|
+| Language | JavaScript | Core programming language |
+| Runtime | Node.js | Server-side runtime |
 | Framework | Express.js | Routing and backend request handling |
-| Storage / Persistence | CSV files / file-based storage | Simple data persistence for the current project structure |
-| Frontend | HTML, CSS | Basic user interface pages |
-| Architecture | Layered architecture | Separation of concerns between models, services, data, and UI |
-| Version Control | Git + GitHub | Source control and project collaboration |
+| Storage | CSV files | Simple persistence for project data |
+| Frontend | HTML, CSS, JavaScript | Basic user interface |
+| Architecture | Layered Architecture | Separation of concerns |
+| Design Pattern | Repository Pattern | Abstracted data access |
+| Version Control | Git + GitHub | Source control and delivery |
 
 ---
 
@@ -85,70 +81,137 @@ This makes the system practical for real rental workflows, where users need a si
 
 ```bash
 Apartment-rental-system/
-├── Models/                # Domain entities of the system
-├── UI/                    # Controllers, routes, and frontend-related structure
-├── confing/               # Configuration files
-├── data/                  # Repository layer and storage handling
-├── docs/                  # Project documentation
-├── middleware/            # Express middleware
-├── public/                # Static frontend assets
-├── services/              # Business logic layer
-├── .gitignore
-├── app.js                 # Main application entry
+├── Models/                 # Domain entities of the system
+├── Services/               # Business logic layer
+├── Data/                   # Repository layer and CSV persistence
+│   ├── IRepository.js
+│   ├── FileRepository.js
+│   └── *.csv
+├── UI/                     # Presentation layer
+│   ├── controllers/        # Request handlers
+│   ├── routes/             # Express routes
+│   └── frontend/           # Frontend pages/assets if used
+├── docs/                   # Architecture and UML documentation
+├── middleware/             # Shared middleware
+├── public/                 # Static public assets
+├── app.js                  # Main application entry point
 ├── package.json
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Project Architecture
+## Architecture
 
-The project is organized using a layered architecture:
+The project follows a **layered architecture** in order to separate responsibilities and improve maintainability.
 
-- **Models** – represent the core entities such as users, apartments, bookings, and reviews
-- **Services** – contain the business logic and application rules
-- **Data** – manage repositories and data persistence
-- **UI** – handle routes, controllers, and interaction with the client side
-- **Middleware** – manage request processing, validation, and shared backend behavior
+### Models
+The `Models` layer contains the core domain entities of the application such as:
+- User
+- Apartment
+- Booking
+- Review
 
-This structure improves readability, maintainability, and separation of concerns across the project.
+These classes represent the main business objects of the system.
+
+### Services
+The `Services` layer contains the business logic of the application.
+
+This layer is responsible for:
+- coordinating application behavior
+- working with repositories
+- separating logic from route handling
+
+### Data
+The `Data` layer is responsible for persistence.
+
+It includes:
+- `IRepository`
+- `FileRepository`
+- CSV storage files
+
+This layer abstracts file operations from the rest of the system and keeps storage logic isolated.
+
+### UI
+The `UI` layer contains:
+- controllers
+- routes
+- frontend-related files
+
+This layer handles incoming requests and sends responses back to the client.
+
+### Middleware
+The `middleware` folder contains reusable backend logic that can be applied during request processing.
 
 ---
 
-## Core Modules
+## Repository Pattern
 
-### User Management
-The system supports user registration and login functionality and is planned to support role-based access for different types of users such as administrator, apartment owner, and tenant.
+This project implements the **Repository Pattern** as requested in the assignment.
 
-### Apartment Management
-Apartment data can be organized and managed through dedicated models and services. Each apartment can include information such as title, location, price, description, and availability.
+### Implemented Components
+- `IRepository`
+- `FileRepository`
 
-### Booking Management
-The booking module is intended to manage reservations, rental dates, and booking status. A major goal of this part of the system is to avoid overlapping or double bookings for the same apartment.
+### Repository Methods
+- `getAll()`
+- `getById()`
+- `add()`
+- `save()`
 
-### Reviews
-Users can leave reviews for apartments after using the service, allowing the platform to include feedback and improve trust between tenants and apartment owners.
+### Why it is used
+The repository pattern makes the code cleaner by separating data access logic from business logic.
+
+Instead of reading and writing CSV files directly inside controllers or services, the project keeps file handling inside repository classes. This improves readability, reuse, and future scalability.
+
+---
+
+## UML and Documentation
+
+The project documentation is stored in the `docs/` folder.
+
+### Included Documentation
+- `docs/architecture.md` – explains the architecture, layers, responsibilities, and design decisions
+- `docs/class-diagram.md` – contains the UML class diagram and class relationships
+
+These files support the academic requirements of the project and describe how the system is organized internally.
+
+---
+
+## SOLID Principle Applied
+
+The project applies the **Single Responsibility Principle (SRP)**.
+
+Examples:
+- Models define entities
+- Services contain business logic
+- Repositories handle persistence
+- Controllers handle requests and responses
+
+By assigning one clear responsibility to each layer and component, the code becomes easier to understand and easier to maintain.
 
 ---
 
 ## Current Status
 
-**This project is currently in the development phase.**
+**This project is currently in the development phase, with the architectural foundation already organized.**
 
 ### Completed
-- project structure created
-- layered architecture organized
-- basic backend setup prepared
-- documentation folder included
-- models, services, data, UI, and middleware folders structured
+- layered structure created
+- Models, Services, Data, and UI separated
+- repository pattern prepared and implemented
+- CSV-based storage included
+- documentation folder prepared
+- UML and architecture documentation included
+- README updated to match the project structure
 
 ### In Progress
-- application logic implementation
-- apartment management features
-- booking flow development
-- user authentication
-- review handling
-- frontend integration and improvements
+- extending CRUD behavior
+- improving validation and error handling
+- refining booking flow
+- improving frontend integration
+- expanding system functionality
 
 ---
 
@@ -157,9 +220,6 @@ Users can leave reviews for apartments after using the service, allowing the pla
 ## 1. Clone the repository
 ```bash
 git clone https://github.com/th-umib/Apartment-rental-system.git
-```
-
-```bash
 cd Apartment-rental-system
 ```
 
@@ -168,35 +228,34 @@ cd Apartment-rental-system
 npm install
 ```
 
-## 3. Start the project
+## 3. Start the application
+```bash
+npm start
+```
+
+If your `package.json` does not yet include a start script, you can run:
+
 ```bash
 node app.js
 ```
 
-If additional scripts are added later, they can also be used through `npm run ...` commands.
+The server should run on:
+
+```bash
+http://localhost:3000
+```
 
 ---
-
-## Project Goals
-
-The main goals of this system are:
-- to simplify apartment listing management
-- to support a structured reservation process
-- to reduce booking conflicts
-- to organize users, apartments, and reviews in one place
-- to provide a maintainable and scalable academic software project
-
----
-
 ## Future Improvements
 
-- Full authentication and authorization
-- Better apartment filtering and search
-- Booking validation with date conflict prevention
-- Admin dashboard and user control
-- Improved frontend UI/UX
-- Database integration for larger scale persistence
-- Reporting and analytics features
+- full authentication and authorization
+- complete CRUD operations for all entities
+- stronger validation and input checks
+- search and filtering for apartments
+- booking conflict prevention
+- admin-focused management features
+- improved frontend UI/UX
+- possible migration from CSV storage to a database in the future
 
 ---
 
