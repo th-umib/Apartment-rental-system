@@ -9,6 +9,7 @@ A layered web application for managing apartments, users, bookings, and reviews 
 **Apartment Rental Management System** is a semester project developed to organize and simplify the core processes of an apartment rental platform.
 
 The system is designed around a clear layered architecture and focuses on the management of:
+
 - apartment listings
 - users and roles
 - bookings and reservation flow
@@ -23,6 +24,7 @@ The system is designed around a clear layered architecture and focuses on the ma
 The purpose of this system is to make apartment rental operations easier, more structured, and easier to maintain in code.
 
 A user should be able to:
+
 - browse available apartments
 - view apartment details
 - create booking requests
@@ -38,6 +40,7 @@ This makes the project useful both as a practical rental-management application 
 ## Features
 
 ### Core Functional Areas
+
 - User management
 - Apartment management
 - Booking management
@@ -46,6 +49,7 @@ This makes the project useful both as a practical rental-management application 
 - Layered project organization
 
 ### Current Project Capabilities
+
 - Organized structure with separate layers for Models, Services, Data, and UI
 - Repository Pattern using `IRepository` and `FileRepository`
 - CSV-based file storage for simple persistence
@@ -53,6 +57,7 @@ This makes the project useful both as a practical rental-management application 
 - Project documentation for architecture and UML
 
 ### Planned Extensions
+
 - Full authentication and authorization
 - Better validation and error handling
 - Apartment filtering and search
@@ -64,16 +69,16 @@ This makes the project useful both as a practical rental-management application 
 
 ## Tech Stack
 
-| Layer / Area | Technology | Purpose |
-|-------------|------------|---------|
-| Language | JavaScript | Core programming language |
-| Runtime | Node.js | Server-side runtime |
-| Framework | Express.js | Routing and backend request handling |
-| Storage | CSV files | Simple persistence for project data |
-| Frontend | HTML, CSS, JavaScript | Basic user interface |
-| Architecture | Layered Architecture | Separation of concerns |
-| Design Pattern | Repository Pattern | Abstracted data access |
-| Version Control | Git + GitHub | Source control and delivery |
+| Layer / Area    | Technology            | Purpose                              |
+| --------------- | --------------------- | ------------------------------------ |
+| Language        | JavaScript            | Core programming language            |
+| Runtime         | Node.js               | Server-side runtime                  |
+| Framework       | Express.js            | Routing and backend request handling |
+| Storage         | CSV files             | Simple persistence for project data  |
+| Frontend        | HTML, CSS, JavaScript | Basic user interface                 |
+| Architecture    | Layered Architecture  | Separation of concerns               |
+| Design Pattern  | Repository Pattern    | Abstracted data access               |
+| Version Control | Git + GitHub          | Source control and delivery          |
 
 ---
 
@@ -107,7 +112,9 @@ Apartment-rental-system/
 The project follows a **layered architecture** in order to separate responsibilities and improve maintainability.
 
 ### Models
+
 The `Models` layer contains the core domain entities of the application such as:
+
 - User
 - Apartment
 - Booking
@@ -116,17 +123,21 @@ The `Models` layer contains the core domain entities of the application such as:
 These classes represent the main business objects of the system.
 
 ### Services
+
 The `Services` layer contains the business logic of the application.
 
 This layer is responsible for:
+
 - coordinating application behavior
 - working with repositories
 - separating logic from route handling
 
 ### Data
+
 The `Data` layer is responsible for persistence.
 
 It includes:
+
 - `IRepository`
 - `FileRepository`
 - CSV storage files
@@ -134,7 +145,9 @@ It includes:
 This layer abstracts file operations from the rest of the system and keeps storage logic isolated.
 
 ### UI
+
 The `UI` layer contains:
+
 - controllers
 - routes
 - frontend-related files
@@ -142,6 +155,7 @@ The `UI` layer contains:
 This layer handles incoming requests and sends responses back to the client.
 
 ### Middleware
+
 The `middleware` folder contains reusable backend logic that can be applied during request processing.
 
 ---
@@ -151,16 +165,19 @@ The `middleware` folder contains reusable backend logic that can be applied duri
 This project implements the **Repository Pattern** as requested in the assignment.
 
 ### Implemented Components
+
 - `IRepository`
 - `FileRepository`
 
 ### Repository Methods
+
 - `getAll()`
 - `getById()`
 - `add()`
 - `save()`
 
 ### Why it is used
+
 The repository pattern makes the code cleaner by separating data access logic from business logic.
 
 Instead of reading and writing CSV files directly inside controllers or services, the project keeps file handling inside repository classes. This improves readability, reuse, and future scalability.
@@ -172,6 +189,7 @@ Instead of reading and writing CSV files directly inside controllers or services
 The project documentation is stored in the `docs/` folder.
 
 ### Included Documentation
+
 - `docs/architecture.md` – explains the architecture, layers, responsibilities, and design decisions
 - `docs/class-diagram.md` – contains the UML class diagram and class relationships
 
@@ -184,6 +202,7 @@ These files support the academic requirements of the project and describe how th
 The project applies the **Single Responsibility Principle (SRP)**.
 
 Examples:
+
 - Models define entities
 - Services contain business logic
 - Repositories handle persistence
@@ -198,6 +217,7 @@ By assigning one clear responsibility to each layer and component, the code beco
 **This project is currently in the development phase, with the architectural foundation already organized.**
 
 ### Completed
+
 - layered structure created
 - Models, Services, Data, and UI separated
 - repository pattern prepared and implemented
@@ -207,6 +227,7 @@ By assigning one clear responsibility to each layer and component, the code beco
 - README updated to match the project structure
 
 ### In Progress
+
 - extending CRUD behavior
 - improving validation and error handling
 - refining booking flow
@@ -218,17 +239,20 @@ By assigning one clear responsibility to each layer and component, the code beco
 ## How to Run the Project
 
 ## 1. Clone the repository
+
 ```bash
 git clone https://github.com/th-umib/Apartment-rental-system.git
 cd Apartment-rental-system
 ```
 
 ## 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ## 3. Start the application
+
 ```bash
 npm start
 ```
@@ -246,6 +270,7 @@ http://localhost:3000
 ```
 
 ---
+
 ## Future Improvements
 
 - full authentication and authorization

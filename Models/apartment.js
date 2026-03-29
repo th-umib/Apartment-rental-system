@@ -1,12 +1,12 @@
 class Apartment {
-    constructor(id, title, city, address, pricePerNight, isAvailable) {
-        this.id = id;
-        this.title = title;
-        this.city = city;
-        this.address = address;
-        this.pricePerNight = pricePerNight;
-        this.isAvailable = isAvailable;
-    }
+  constructor(id, title, city, address, price, isAvailable) {
+    this.id = Number(id);
+    this.title = title;
+    this.city = city;
+    this.address = address;
+    this.price = Number(price);
+    this.isAvailable = isAvailable === true || isAvailable === "true";
+  }
 }
 
 module.exports = Apartment;

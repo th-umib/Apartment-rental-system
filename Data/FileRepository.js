@@ -1,60 +1,75 @@
 const fs = require("fs");
 const path = require("path");
-const IRepository = require("./IRepository");
 
-class FileRepository extends IRepository {
+class FileRepository {
   constructor(filePath) {
-    super();
     this.filePath = path.resolve(filePath);
-    this.items = this.loadFromFile();
-  }
-
-  loadFromFile() {
-    if (!fs.existsSync(this.filePath)) {
-      return [];
-    }
-
-    const data = fs.readFileSync(this.filePath, "utf8").trim();
-    if (!data) return [];
-
-    const lines = data.split("\n");
-    const headers = lines[0].split(",");
-
-    return lines.slice(1).map(line => {
-      const values = line.split(",");
-      const obj = {};
-      headers.forEach((header, index) => {
-        obj[header.trim()] = values[index] ? values[index].trim() : "";
-      });
-      return obj;
-    });
   }
 
   getAll() {
-    return this.items;
+    if (!fs.existsSync(this.filePath)) return [];
+
+    const content = fs.readFileSync(this.filePath, "utf-8").trim();
+    if (!content) return [];
+
+    const lines = content.split("\n");
+    const headers = lines[0].split(",");
+
+    return lines.slice(1).map((line) => {
+      const values = line.split(",");
+      const item = {};
+
+      headers.forEach((header, index) => {
+        item[header.trim()] = values[index] ? values[index].trim() : "";
+      });
+
+      return item;
+    });
   }
 
   getById(id) {
-    return this.items.find(item => item.id == id);
+    const items = this.getAll();
+    return items.find((item) => Number(item.id) === Number(id));
   }
 
-  add(entity) {
-    this.items.push(entity);
+  add(item) {
+    const items = this.getAll();
+    items.push(item);
+    this.save(items);
+    return item;
   }
 
-  save() {
-    if (this.items.length === 0) {
-      fs.writeFileSync(this.filePath, "");
-      return;
-    }
+  update(id, updatedItem) {
+    const items = this.getAll();
+    const index = items.findIndex((item) => Number(item.id) === Number(id));
 
-    const headers = Object.keys(this.items[0]);
-    const rows = this.items.map(item =>
-      headers.map(header => item[header]).join(",")
+    if (index === -1) return null;
+
+    items[index] = { ...items[index], ...updatedItem, id: Number(id) };
+    this.save(items);
+    return items[index];
+  }
+
+  delete(id) {
+    const items = this.getAll();
+    const filteredItems = items.filter((item) => Number(item.id) !== Number(id));
+
+    if (items.length === filteredItems.length) return false;
+
+    this.save(filteredItems);
+    return true;
+  }
+
+  save(items) {
+    if (!items || items.length === 0) return;
+
+    const headers = Object.keys(items[0]);
+    const lines = items.map((item) =>
+      headers.map((header) => item[header]).join(",")
     );
 
-    const csvContent = [headers.join(","), ...rows].join("\n");
-    fs.writeFileSync(this.filePath, csvContent, "utf8");
+    const csvContent = [headers.join(","), ...lines].join("\n");
+    fs.writeFileSync(this.filePath, csvContent, "utf-8");
   }
 }
 

@@ -1,13 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Apartments</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apartment Management</title>
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-  <h1>Available Apartments</h1>
-  <div id="apartment-list"></div>
+  <header class="page-header">
+    <div class="container">
+      <h1>Apartment Management System</h1>
+      <p>Manage apartments with create, update, delete, and listing features.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="form-section">
+      <h2>Add / Update Apartment</h2>
+
+      <form id="apartment-form" class="apartment-form">
+        <input type="hidden" id="apartment-id" />
+
+        <div class="form-grid">
+          <input type="text" id="title" placeholder="Apartment Title" required />
+          <input type="text" id="city" placeholder="City" required />
+          <input type="text" id="address" placeholder="Address" required />
+          <input type="number" id="price" placeholder="Price" required />
+        </div>
+
+        <select id="isAvailable">
+          <option value="true">Available</option>
+          <option value="false">Not Available</option>
+        </select>
+
+        <button type="submit" id="submit-btn">Add Apartment</button>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <h2>Apartment List</h2>
+      <div id="apartment-list" class="apartment-list"></div>
+    </section>
+  </main>
 
   <script src="./js/apartments.js"></script>
 </body>
