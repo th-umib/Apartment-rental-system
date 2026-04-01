@@ -1,4 +1,4 @@
-# Sprint 2 Plan — Tringa Hysenigit
+# Sprint 2 Plan — Tringa Hyseni
 
 ## Gjendja Aktuale
 
