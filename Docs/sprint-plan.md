@@ -64,3 +64,4 @@ Rastet kufitare që do të kontrollohen janë:
 - kërkimi i një apartamenti që ekziston
 - kërkimi i një apartamenti që nuk ekziston
 - kërkimi me input bosh
+

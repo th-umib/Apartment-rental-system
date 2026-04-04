@@ -10,12 +10,30 @@ const priceInput = document.getElementById("price");
 const isAvailableInput = document.getElementById("isAvailable");
 const submitBtn = document.getElementById("submit-btn");
 
+const searchTitleInput = document.getElementById("search-title");
+const searchCityInput = document.getElementById("search-city");
+const searchBtn = document.getElementById("search-btn");
+const resetBtn = document.getElementById("reset-btn");
+
 async function loadApartments() {
   try {
-    const response = await fetch(apiUrl);
+    const title = searchTitleInput.value.trim();
+    const city = searchCityInput.value.trim();
+
+    const params = new URLSearchParams();
+
+    if (title) params.append("title", title);
+    if (city) params.append("city", city);
+
+    const response = await fetch(`${apiUrl}?${params.toString()}`);
     const apartments = await response.json();
 
     apartmentList.innerHTML = "";
+
+    if (apartments.length === 0) {
+      apartmentList.innerHTML = "<p>No apartments found.</p>";
+      return;
+    }
 
     apartments.forEach((apartment) => {
       const safeTitle = String(apartment.title).replace(/'/g, "\\'");
@@ -39,7 +57,8 @@ async function loadApartments() {
       apartmentList.appendChild(card);
     });
   } catch (error) {
-    console.error("Error loading apartments:", error);
+    apartmentList.innerHTML = "<p>Gabim gjate ngarkimit te apartamenteve.</p>";
+    console.error(error);
   }
 }
 
@@ -52,35 +71,35 @@ apartmentForm.addEventListener("submit", async (e) => {
     title: titleInput.value,
     city: cityInput.value,
     address: addressInput.value,
-    price: Number(priceInput.value),
+    price: priceInput.value,
     isAvailable: isAvailableInput.value === "true",
   };
 
   try {
-    if (id) {
-      await fetch(`${apiUrl}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(apartmentData),
-      });
-      submitBtn.textContent = "Add Apartment";
-    } else {
-      await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(apartmentData),
-      });
+    const response = await fetch(id ? `${apiUrl}/${id}` : apiUrl, {
+      method: id ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(apartmentData),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message);
+      return;
     }
+
+    alert(id ? "Apartmenti u perditesua me sukses." : "Apartmenti u shtua me sukses.");
 
     apartmentForm.reset();
     apartmentIdInput.value = "";
+    submitBtn.textContent = "Add Apartment";
     loadApartments();
   } catch (error) {
-    console.error("Error saving apartment:", error);
+    alert("Gabim gjate ruajtjes se apartmentit.");
+    console.error(error);
   }
 });
 
@@ -99,13 +118,33 @@ function editApartment(id, title, city, address, price, isAvailable) {
 
 async function deleteApartment(id) {
   try {
-    await fetch(`${apiUrl}/${id}`, {
+    const response = await fetch(`${apiUrl}/${id}`, {
       method: "DELETE",
     });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Apartmenti u fshi me sukses.");
     loadApartments();
   } catch (error) {
-    console.error("Error deleting apartment:", error);
+    alert("Gabim gjate fshirjes se apartmentit.");
+    console.error(error);
   }
 }
+
+searchBtn.addEventListener("click", () => {
+  loadApartments();
+});
+
+resetBtn.addEventListener("click", () => {
+  searchTitleInput.value = "";
+  searchCityInput.value = "";
+  loadApartments();
+});
 
 loadApartments();

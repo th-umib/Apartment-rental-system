@@ -7,6 +7,7 @@ const apartmentService = new ApartmentService(apartmentRepository);
 const getAllApartments = (req, res) => {
   try {
     const filters = {
+      title: req.query.title,
       city: req.query.city,
       isAvailable: req.query.isAvailable,
     };
@@ -23,7 +24,7 @@ const getApartmentById = (req, res) => {
     const apartment = apartmentService.gjejById(req.params.id);
 
     if (!apartment) {
-      return res.status(404).json({ message: "Apartment nuk u gjet." });
+      return res.status(404).json({ message: "Apartmenti nuk u gjet." });
     }
 
     res.status(200).json(apartment);
@@ -46,7 +47,7 @@ const updateApartment = (req, res) => {
     const updatedApartment = apartmentService.update(req.params.id, req.body);
     res.status(200).json(updatedApartment);
   } catch (error) {
-    if (error.message === "Apartment nuk u gjet.") {
+    if (error.message === "Apartmenti nuk u gjet.") {
       return res.status(404).json({ message: error.message });
     }
 
@@ -59,7 +60,7 @@ const deleteApartment = (req, res) => {
     apartmentService.delete(req.params.id);
     res.status(200).json({ message: "Apartment u fshi me sukses." });
   } catch (error) {
-    if (error.message === "Apartment nuk u gjet.") {
+    if (error.message === "Apartmenti nuk u gjet.") {
       return res.status(404).json({ message: error.message });
     }
 

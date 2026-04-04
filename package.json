@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "node app.js"
+    "dev": "node app.js",
+    "test": "jest"
   },
   "keywords": [
     "apartment",
@@ -20,5 +21,8 @@
   "type": "commonjs",
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^30.0.5"
   }
 }
