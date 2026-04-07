@@ -1,3 +1,2 @@
-id,name,email,role
-1,Tringa,tringa@gmail.com,tenant
-2,Admin,admin@gmail.com,admin
+id,fullName,email,password,role
+1,Tringa,test@test.com,123456,tenant

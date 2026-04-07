@@ -1,18 +1,294 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apartment Rental System</title>
-  <link rel="stylesheet" href="./css/style.css">
+<html lang="en">  
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartApart | Apartments</title>
+  <link rel="icon" href="./assets/favicon.png?v=2" type="image/png" />
+  <link rel="shortcut icon" href="./assets/favicon.png?v=2" type="image/png" />
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
-<body>
-  <h1>Apartment Rental Management System</h1>
-  <nav>
-    <a href="apartments.html">Apartments</a>
-    <a href="bookings.html">Bookings</a>
-    <a href="login.html">Login</a>
+ <header class="site-header">
+  <a href="index.html" class="site-brand">
+    <div class="site-brand-box">🏢</div>
+    <span class="site-brand-text">SmartApart</span>
+  </a>
+
+  <nav class="site-nav">
+    <a href="index.html" class="site-nav-btn active">Home</a>
+    <a href="apartments.html" class="site-nav-btn">Apartments</a>
+    <a href="bookings.html" class="site-nav-btn">Bookings</a>
+    <a href="inquiries.html" class="site-nav-btn">Inquiries</a>
+    <a href="admin.html" class="site-nav-btn">Admin</a>
   </nav>
-  <p>Welcome to the apartment rental platform.</p>
+
+  <div id="nav-actions"></div>
+</header>
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="hero-badge">Kosovo's #1 Apartment Platform</span>
+      <h1>Find Your Perfect<br />Place to Call Home</h1>
+      <p>
+        Browse premium apartments for rent and sale in Mitrovica.
+        Smart search, verified listings, and seamless inquiries.
+      </p>
+
+      <div class="hero-search">
+        <input
+          type="text"
+          id="home-search"
+          placeholder="Search by name or location..."
+        />
+        <button class="btn btn-primary" id="home-search-btn">Filters</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <h3>4</h3>
+          <p>For Rent</p>
+        </div>
+        <div class="stat-card">
+          <h3>4</h3>
+          <p>For Sale</p>
+        </div>
+        <div class="stat-card">
+          <h3>10</h3>
+          <p>Total Listings</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-tag">WHY SMARTAPART</span>
+        <h2>Everything You Need</h2>
+        <p>
+          We make finding your next home effortless with verified listings
+          and professional support.
+        </p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card feature-card">
+          <div class="icon-box">✔</div>
+          <h3>Verified Listings</h3>
+          <p>Every property is inspected and verified by our expert team before listing.</p>
+        </div>
+
+        <div class="card feature-card">
+          <div class="icon-box">★</div>
+          <h3>Premium Quality</h3>
+          <p>Handpicked apartments that meet our rigorous quality standards.</p>
+        </div>
+
+        <div class="card feature-card">
+          <div class="icon-box">👥</div>
+          <h3>Trusted by 500+</h3>
+          <p>Hundreds of happy clients who found their perfect home through us.</p>
+        </div>
+
+        <div class="card feature-card">
+          <div class="icon-box">⚖</div>
+          <h3>Compare Properties</h3>
+          <p>Side-by-side comparison tools to help you make the best decision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="top-properties section">
+    <div class="container">
+      <div class="section-row">
+        <h2>Top Properties</h2>
+        <a href="compare.html" class="text-link">Compare properties →</a>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="property-card">
+          <div class="property-image">
+            <span class="status-badge">Available</span>
+            <span class="price-badge">€350/mo</span>
+          </div>
+          <div class="property-body">
+            <h3>Sunny Modern Loft</h3>
+            <p class="location">Qendra, Mitrovicë</p>
+            <p class="desc">A bright and spacious loft apartment with large windows and modern style.</p>
+            <div class="property-meta">
+              <span>2 Rooms</span>
+              <span>75 m²</span>
+              <span class="type-pill">Rent</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card">
+          <div class="property-image image-two">
+            <span class="status-badge">Available</span>
+            <span class="price-badge">€125,000</span>
+          </div>
+          <div class="property-body">
+            <h3>Luxury Penthouse Suite</h3>
+            <p class="location">Lagja e Boshnjakëve, Mitrovicë</p>
+            <p class="desc">Panoramic city views, premium finishes, and elegant interior design.</p>
+            <div class="property-meta">
+              <span>4 Rooms</span>
+              <span>180 m²</span>
+              <span class="type-pill sale">Sale</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card">
+          <div class="property-image image-three">
+            <span class="status-badge">Available</span>
+            <span class="price-badge">€450/mo</span>
+          </div>
+          <div class="property-body">
+            <h3>Contemporary City View</h3>
+            <p class="location">Lagja e Minatorëve, Mitrovicë</p>
+            <p class="desc">Modern apartment with open-concept living space and beautiful city views.</p>
+            <div class="property-meta">
+              <span>3 Rooms</span>
+              <span>95 m²</span>
+              <span class="type-pill">Rent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="neighborhoods section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-tag">EXPLORE</span>
+        <h2>Popular Neighborhoods</h2>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card neighborhood-card">
+          <h3>Qendra</h3>
+          <p>City center — cafes, shops & nightlife</p>
+          <a href="apartments.html">4 properties →</a>
+        </div>
+
+        <div class="card neighborhood-card">
+          <h3>Lagja e Boshnjakëve</h3>
+          <p>Prestigious & quiet residential area</p>
+          <a href="apartments.html">2 properties →</a>
+        </div>
+
+        <div class="card neighborhood-card">
+          <h3>Lagja e Minatorëve</h3>
+          <p>Modern developments & family friendly</p>
+          <a href="apartments.html">2 properties →</a>
+        </div>
+
+        <div class="card neighborhood-card">
+          <h3>Lagja Fidanishte</h3>
+          <p>Green spaces & excellent schools</p>
+          <a href="apartments.html">2 properties →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-tag">TESTIMONIALS</span>
+        <h2>What Our Clients Say</h2>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Found my dream apartment in just 2 days. The platform is incredibly easy to use!"</p>
+          <h4>Arben K.</h4>
+          <span>Tenant</span>
+        </div>
+
+        <div class="card testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Professional service and verified listings. Highly recommend SmartApart to everyone."</p>
+          <h4>Drita B.</h4>
+          <span>Buyer</span>
+        </div>
+
+        <div class="card testimonial-card">
+          <div class="stars">★★★★☆</div>
+          <p>"Transparent pricing and great support. One of the best real estate platforms in Mitrovica."</p>
+          <h4>Fatos M.</h4>
+          <span>Tenant</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta section-dark">
+    <div class="container center">
+      <h2>Ready to Find Your Dream Home?</h2>
+      <p>
+        Create an account to save your favorite apartments, submit inquiries,
+        and get notified about new listings.
+      </p>
+      <div class="cta-actions">
+        <a href="register.html" class="btn btn-primary">Get Started Free</a>
+        <a href="apartments.html" class="btn btn-secondary">Browse Apartments</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="logo footer-logo">
+          <div class="logo-box">🏢</div>
+          <span>SmartApart</span>
+        </div>
+        <p>
+          Modern apartment management platform for Mitrovica.
+          Find your perfect home with ease and confidence.
+        </p>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="apartments.html">Browse Apartments</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html">My Favorites</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact Info</h4>
+        <p>Rruga Mbretëresha Teutë, Mitrovicë 40000, Kosovo</p>
+        <p>+383 44 123 456</p>
+        <p>info@smartapart.com</p>
+        <p>Mon–Fri: 09:00–17:00</p>
+      </div>
+
+      <div>
+        <h4>Stay Updated</h4>
+        <p>Get notified about new apartment listings.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email" />
+          <button type="submit" class="btn btn-primary">→</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Smart Apartment Management System. All rights reserved.</p>
+      <p>Tringa Hyseni — University of Mitrovica "Isa Boletini"</p>
+    </div>
+  </footer>
+
+  <script src="./js/home.js"></script>
 </body>
 </html>

@@ -1,70 +1,62 @@
-const ApartmentRepository = require("../../Data/apartmentRepository");
-const ApartmentService = require("../../Services/apartmentService");
+const apartmentService = require("../../Services/apartmentService");
 
-const apartmentRepository = new ApartmentRepository();
-const apartmentService = new ApartmentService(apartmentRepository);
-
-const getAllApartments = (req, res) => {
+const getAllApartments = async (req, res) => {
   try {
-    const filters = {
-      title: req.query.title,
-      city: req.query.city,
-      isAvailable: req.query.isAvailable,
-    };
-
-    const apartments = apartmentService.listo(filters);
+    const apartments = await apartmentService.getAllApartments();
     res.status(200).json(apartments);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error fetching apartments", error: error.message });
   }
 };
 
-const getApartmentById = (req, res) => {
+const getApartmentById = async (req, res) => {
   try {
-    const apartment = apartmentService.gjejById(req.params.id);
+    const apartment = await apartmentService.getApartmentById(req.params.id);
 
     if (!apartment) {
-      return res.status(404).json({ message: "Apartmenti nuk u gjet." });
+      return res.status(404).json({ message: "Apartment not found" });
     }
 
     res.status(200).json(apartment);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error fetching apartment", error: error.message });
   }
 };
 
-const createApartment = (req, res) => {
+const createApartment = async (req, res) => {
   try {
-    const newApartment = apartmentService.shto(req.body);
+    const newApartment = await apartmentService.createApartment(req.body);
     res.status(201).json(newApartment);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Error creating apartment", error: error.message });
   }
 };
 
-const updateApartment = (req, res) => {
+const updateApartment = async (req, res) => {
   try {
-    const updatedApartment = apartmentService.update(req.params.id, req.body);
+    const updatedApartment = await apartmentService.updateApartment(req.params.id, req.body);
+
+    if (!updatedApartment) {
+      return res.status(404).json({ message: "Apartment not found" });
+    }
+
     res.status(200).json(updatedApartment);
   } catch (error) {
-    if (error.message === "Apartmenti nuk u gjet.") {
-      return res.status(404).json({ message: error.message });
-    }
-
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Error updating apartment", error: error.message });
   }
 };
 
-const deleteApartment = (req, res) => {
+const deleteApartment = async (req, res) => {
   try {
-    apartmentService.delete(req.params.id);
-    res.status(200).json({ message: "Apartment u fshi me sukses." });
-  } catch (error) {
-    if (error.message === "Apartmenti nuk u gjet.") {
-      return res.status(404).json({ message: error.message });
+    const deletedApartment = await apartmentService.deleteApartment(req.params.id);
+
+    if (!deletedApartment) {
+      return res.status(404).json({ message: "Apartment not found" });
     }
 
-    res.status(400).json({ message: error.message });
+    res.status(200).json({ message: "Apartment deleted successfully", deletedApartment });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting apartment", error: error.message });
   }
 };
 

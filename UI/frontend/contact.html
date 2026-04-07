@@ -1,35 +1,42 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartApart | Bookings</title>
-  <link rel="icon" type="image/png" href="./favicon.png" />
-  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <title>SmartApart | Inquiries</title>
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-<header class="site-header">
-  <a href="index.html" class="site-brand">
-    <div class="site-brand-box">🏢</div>
-    <span class="site-brand-text">SmartApart</span>
-  </a>
+  <header class="navbar">
+    <div class="container nav-content">
+      <div class="logo">
+        <div class="logo-box">🏢</div>
+        <span>SmartApart</span>
+      </div>
 
-  <nav class="site-nav">
-    <a href="index.html" class="site-nav-btn">Home</a>
-    <a href="apartments.html" class="site-nav-btn">Apartments</a>
-    <a href="bookings.html" class="site-nav-btn active">Bookings</a>
-    <a href="inquiries.html" class="site-nav-btn">Inquiries</a>
-    <a href="admin.html" class="site-nav-btn">Admin</a>
-  </nav>
-</header>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="apartments.html">Apartments</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Inquiries</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="login-link">Log In</a>
+        <a href="register.html" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </header>
+
   <section class="page-hero small-hero">
     <div class="container">
-      <span class="section-tag">BOOKINGS</span>
-      <h1>Manage Apartment Bookings</h1>
+      <span class="section-tag">INQUIRIES</span>
+      <h1>Customer Questions and Messages</h1>
       <p>
-        Review visit requests, track booking status, and manage reservations
-        for your apartment rental platform.
+        Review apartment inquiries, customer messages, and communication
+        related to your listings.
       </p>
     </div>
   </section>
@@ -38,11 +45,11 @@
     <div class="container">
       <section class="section-listings">
         <div class="section-row">
-          <h2>Booking Requests</h2>
-          <span class="list-note">Review and update all apartment bookings</span>
+          <h2>Inquiry Messages</h2>
+          <span class="list-note">Manage and review all customer inquiries</span>
         </div>
 
-        <div id="booking-list" class="apartment-list apartment-grid-modern"></div>
+        <div id="inquiry-list" class="apartment-list apartment-grid-modern"></div>
       </section>
     </div>
   </main>
@@ -56,7 +63,7 @@
         </div>
         <p>
           Modern apartment management platform for Mitrovica.
-          Manage apartment bookings with confidence and ease.
+          Track client messages and apartment interest in one place.
         </p>
       </div>
 
@@ -80,7 +87,7 @@
 
       <div>
         <h4>Stay Updated</h4>
-        <p>Get notified about new apartment activity.</p>
+        <p>Get notified about new customer activity.</p>
         <form class="newsletter-form">
           <input type="email" placeholder="Your email" />
           <button type="submit" class="btn btn-primary">→</button>
@@ -94,6 +101,6 @@
     </div>
   </footer>
 
-  <script src="./js/bookings.js"></script>
+  <script src="./js/contact.js"></script>
 </body>
 </html>

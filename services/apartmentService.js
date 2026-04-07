@@ -1,149 +1,112 @@
-const Apartment = require("../Models/apartment");
+const db = require("../config/db");
 
-class ApartmentService {
-  constructor(apartmentRepository) {
-    this.apartmentRepository = apartmentRepository;
-  }
+const getAllApartments = async () => {
+  const result = await db.query("SELECT * FROM apartments ORDER BY id DESC");
+  return result.rows;
+};
 
-  listo(filters = {}) {
-    try {
-      let apartments = this.apartmentRepository.getAll();
+const getApartmentById = async (id) => {
+  const result = await db.query("SELECT * FROM apartments WHERE id = $1", [id]);
+  return result.rows[0];
+};
 
-      apartments = apartments.map(
-        (a) =>
-          new Apartment(
-            a.id,
-            a.title,
-            a.city,
-            a.address,
-            a.price,
-            a.isAvailable
-          )
-      );
+const createApartment = async (apartment) => {
+  const {
+    title,
+    description,
+    city,
+    address,
+    price_per_month,
+    bedrooms,
+    bathrooms,
+    size_m2,
+    image_url,
+    is_available,
+    created_by,
+  } = apartment;
 
-      if (filters.title) {
-        apartments = apartments.filter((a) =>
-          a.title.toLowerCase().includes(filters.title.toLowerCase())
-        );
-      }
+  const result = await db.query(
+    `INSERT INTO apartments 
+    (title, description, city, address, price_per_month, bedrooms, bathrooms, size_m2, image_url, is_available, created_by)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+    RETURNING *`,
+    [
+      title,
+      description,
+      city,
+      address,
+      price_per_month,
+      bedrooms,
+      bathrooms,
+      size_m2,
+      image_url,
+      is_available,
+      created_by,
+    ]
+  );
 
-      if (filters.city) {
-        apartments = apartments.filter((a) =>
-          a.city.toLowerCase().includes(filters.city.toLowerCase())
-        );
-      }
+  return result.rows[0];
+};
 
-      if (filters.isAvailable !== undefined && filters.isAvailable !== "") {
-        const available =
-          filters.isAvailable === "true" || filters.isAvailable === true;
-        apartments = apartments.filter((a) => a.isAvailable === available);
-      }
+const updateApartment = async (id, apartment) => {
+  const {
+    title,
+    description,
+    city,
+    address,
+    price_per_month,
+    bedrooms,
+    bathrooms,
+    size_m2,
+    image_url,
+    is_available,
+  } = apartment;
 
-      return apartments;
-    } catch (error) {
-      throw new Error("Gabim gjate filtrimit te apartamenteve.");
-    }
-  }
+  const result = await db.query(
+    `UPDATE apartments
+     SET title = $1,
+         description = $2,
+         city = $3,
+         address = $4,
+         price_per_month = $5,
+         bedrooms = $6,
+         bathrooms = $7,
+         size_m2 = $8,
+         image_url = $9,
+         is_available = $10,
+         updated_at = CURRENT_TIMESTAMP
+     WHERE id = $11
+     RETURNING *`,
+    [
+      title,
+      description,
+      city,
+      address,
+      price_per_month,
+      bedrooms,
+      bathrooms,
+      size_m2,
+      image_url,
+      is_available,
+      id,
+    ]
+  );
 
-  gjejById(id) {
-    try {
-      const apartment = this.apartmentRepository.getById(id);
-      if (!apartment) return null;
+  return result.rows[0];
+};
 
-      return new Apartment(
-        apartment.id,
-        apartment.title,
-        apartment.city,
-        apartment.address,
-        apartment.price,
-        apartment.isAvailable
-      );
-    } catch (error) {
-      throw new Error("Gabim gjate kerkimit te apartmentit.");
-    }
-  }
+const deleteApartment = async (id) => {
+  const result = await db.query(
+    "DELETE FROM apartments WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return result.rows[0];
+};
 
-  shto(data) {
-    try {
-      if (!data.title || data.title.trim() === "") {
-        throw new Error("Titulli nuk duhet te jete bosh.");
-      }
-
-      if (isNaN(Number(data.price))) {
-        throw new Error("Ju lutem shkruani numer valid.");
-      }
-
-      if (Number(data.price) <= 0) {
-        throw new Error("Cmimi duhet te jete me i madh se 0.");
-      }
-
-      const apartments = this.apartmentRepository.getAll();
-      const newId =
-        apartments.length > 0
-          ? Math.max(...apartments.map((a) => Number(a.id))) + 1
-          : 1;
-
-      const apartment = new Apartment(
-        newId,
-        data.title,
-        data.city,
-        data.address,
-        data.price,
-        data.isAvailable
-      );
-
-      return this.apartmentRepository.add(apartment);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  update(id, data) {
-    try {
-      const existing = this.apartmentRepository.getById(id);
-      if (!existing) {
-        throw new Error("Apartmenti nuk u gjet.");
-      }
-
-      if (data.title !== undefined && data.title.trim() === "") {
-        throw new Error("Titulli nuk duhet te jete bosh.");
-      }
-
-      if (data.price !== undefined && isNaN(Number(data.price))) {
-        throw new Error("Ju lutem shkruani numer valid.");
-      }
-
-      if (data.price !== undefined && Number(data.price) <= 0) {
-        throw new Error("Cmimi duhet te jete me i madh se 0.");
-      }
-
-      const updatedData = {
-        ...existing,
-        ...data,
-        isAvailable:
-          data.isAvailable !== undefined
-            ? data.isAvailable === true || data.isAvailable === "true"
-            : existing.isAvailable,
-      };
-
-      return this.apartmentRepository.update(id, updatedData);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  delete(id) {
-    try {
-      const deleted = this.apartmentRepository.delete(id);
-      if (!deleted) {
-        throw new Error("Apartmenti nuk u gjet.");
-      }
-
-      return true;
-    } catch (error) {
-      throw error;
-    }
-  }
-}
-
-module.exports = ApartmentService;
+module.exports = {
+  getAllApartments,
+  getApartmentById,
+  createApartment,
+  updateApartment,
+  deleteApartment,
+};

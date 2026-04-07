@@ -1,18 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const apartmentController = require("../controllers/apartmentController");
 
-const {
-  getAllApartments,
-  getApartmentById,
-  createApartment,
-  updateApartment,
-  deleteApartment,
-} = require("../controllers/apartmentController");
-
-router.get("/", getAllApartments);
-router.get("/:id", getApartmentById);
-router.post("/", createApartment);
-router.put("/:id", updateApartment);
-router.delete("/:id", deleteApartment);
+router.get("/", apartmentController.getAllApartments);
+router.get("/:id", apartmentController.getApartmentById);
+router.post("/", apartmentController.createApartment);
+router.put("/:id", apartmentController.updateApartment);
+router.delete("/:id", apartmentController.deleteApartment);
 
 module.exports = router;
