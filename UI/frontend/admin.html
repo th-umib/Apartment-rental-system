@@ -4,97 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartApart | Admin</title>
-  <link rel="icon" type="image/png" href="./favicon.png" />
-  <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  <link rel="icon" href="./assets/favicon.png?v=3" type="image/png" />
+  <link rel="shortcut icon" href="./assets/favicon.png?v=3" type="image/png" />
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
   <header class="site-header">
-  <a href="index.html" class="site-brand">
-    <div class="site-brand-box">🏢</div>
-    <span class="site-brand-text">SmartApart Admin</span>
-  </a>
+    <a href="index.html" class="site-brand">
+      <div class="site-brand-box">🏢</div>
+      <span class="site-brand-text">SmartApart Admin</span>
+    </a>
 
-  <nav class="site-nav">
-    <a href="index.html" class="site-nav-btn">Home</a>
-    <a href="apartments.html" class="site-nav-btn">Apartments</a>
-    <a href="bookings.html" class="site-nav-btn">Bookings</a>
-    <a href="inquiries.html" class="site-nav-btn">Inquiries</a>
-    <a href="admin.html" class="site-nav-btn active">Admin</a>
-  </nav>
-</header>
-  <main class="admin-page">
-    <section class="admin-hero">
-      <div class="admin-hero-text">
-        <h1>Admin Dashboard</h1>
-        <p>Manage apartments, users, bookings, and inquiries from one place.</p>
+    <nav class="site-nav">
+      <a href="index.html" class="site-nav-btn">Home</a>
+      <a href="apartments.html" class="site-nav-btn">Apartments</a>
+      <a href="bookings.html" class="site-nav-btn">Bookings</a>
+      <a href="inquiries.html" class="site-nav-btn">Inquiries</a>
+      <a href="admin.html" class="site-nav-btn active">Admin</a>
+    </nav>
+  </header>
+
+  <main class="admin-page" style="padding: 24px; max-width: 1200px; margin: 0 auto;">
+    <section class="admin-hero" style="margin-bottom: 30px;">
+      <h1 style="margin-bottom: 8px;">Admin Dashboard</h1>
+      <p style="margin: 0; color: #555;">
+        Manage apartments and review the main system data from one place.
+      </p>
+    </section>
+
+    <section class="admin-summary" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+      <div class="admin-card" style="padding: 18px; border: 1px solid #ddd; border-radius: 12px; min-width: 220px; background: #fff;">
+        <h3 style="margin-top: 0;">Total Apartments</h3>
+        <p id="total-apartments" style="font-size: 28px; font-weight: bold; margin-bottom: 0;">0</p>
       </div>
     </section>
 
-    <section class="admin-stats">
-      <div class="stat-card">
-        <h3>Total Apartments</h3>
-        <p id="total-apartments">0</p>
-      </div>
+    <section class="admin-form-section" style="margin-bottom: 40px;">
+      <h2 style="margin-bottom: 16px;">Add New Apartment</h2>
 
-      <div class="stat-card">
-        <h3>Total Users</h3>
-        <p id="total-users">0</p>
-      </div>
+      <form id="apartment-form" style="display: grid; gap: 14px; max-width: 700px;">
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Apartment title"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
 
-      <div class="stat-card">
-        <h3>Total Bookings</h3>
-        <p id="total-bookings">0</p>
-      </div>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Description"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; min-height: 100px;"
+        ></textarea>
 
-      <div class="stat-card">
-        <h3>Total Inquiries</h3>
-        <p id="total-inquiries">0</p>
-      </div>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          placeholder="City"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
+
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="Address"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
+
+        <input
+          type="number"
+          id="price_per_month"
+          name="price_per_month"
+          placeholder="Price per month"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
+
+        <input
+          type="number"
+          id="bedrooms"
+          name="bedrooms"
+          placeholder="Bedrooms"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
+
+        <input
+          type="number"
+          id="bathrooms"
+          name="bathrooms"
+          placeholder="Bathrooms"
+          required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
+        />
+
+        <button
+          type="submit"
+          style="padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;"
+        >
+          Add Apartment
+        </button>
+      </form>
+
+      <p id="apartment-message" style="margin-top: 14px; font-weight: bold;"></p>
     </section>
 
-    <section class="admin-actions">
-      <h2>Quick Actions</h2>
-      <div class="action-buttons">
-        <button id="load-apartments-btn" type="button">Load Apartments</button>
-        <button id="load-users-btn" type="button">Load Users</button>
-        <button id="load-bookings-btn" type="button">Load Bookings</button>
-        <button id="load-inquiries-btn" type="button">Load Inquiries</button>
-      </div>
-    </section>
-
-    <section class="admin-section" id="apartments-section">
-      <h2>Manage Apartments</h2>
-      <div id="admin-apartments-list" class="admin-list">
-        <p>No apartments loaded yet.</p>
-      </div>
-    </section>
-
-    <section class="admin-section" id="users-section">
-      <h2>Manage Users</h2>
-      <div id="admin-users-list" class="admin-list">
-        <p>No users loaded yet.</p>
-      </div>
-    </section>
-
-    <section class="admin-section" id="bookings-section">
-      <h2>Manage Bookings</h2>
-      <div id="admin-bookings-list" class="admin-list">
-        <p>No bookings loaded yet.</p>
-      </div>
-    </section>
-
-    <section class="admin-section" id="inquiries-section">
-      <h2>Manage Inquiries</h2>
-      <div id="admin-inquiries-list" class="admin-list">
-        <p>No inquiries loaded yet.</p>
-      </div>
+    <section class="admin-list-section">
+      <h2 style="margin-bottom: 16px;">All Apartments</h2>
+      <div id="admin-apartments-list"></div>
     </section>
   </main>
-
-  <footer class="main-footer">
-    <p>&copy; 2026 SmartApart. Admin Panel.</p>
-  </footer>
 
   <script src="./js/admin.js"></script>
 </body>
