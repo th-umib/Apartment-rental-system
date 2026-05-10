@@ -7,8 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchCityInput = document.getElementById("search-city");
   const searchBtn = document.getElementById("search-btn");
   const resetBtn = document.getElementById("reset-btn");
+  const apartmentFeedback = document.getElementById("apartment-feedback");
 
   let apartmentsData = [];
+
+  function showFeedback(message, type = "success") {
+    if (!apartmentFeedback) return;
+
+    apartmentFeedback.textContent = message;
+    apartmentFeedback.style.color = type === "success" ? "green" : "red";
+
+    setTimeout(() => {
+      if (apartmentFeedback.textContent === message) {
+        apartmentFeedback.textContent = "";
+      }
+    }, 4000);
+  }
 
   async function fetchApartments() {
     const response = await fetch("/apartments");
@@ -77,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : "true";
 
         submitBtn.textContent = "Update Apartment";
+        showFeedback("Apartment loaded for editing.", "success");
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     });
@@ -86,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = Number(button.dataset.id);
 
         if (!confirm("Are you sure you want to delete this apartment?")) {
+          showFeedback("Delete action was cancelled.", "error");
           return;
         }
 
@@ -100,10 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error(data.message || "Failed to delete apartment.");
           }
 
+          showFeedback("Apartment deleted successfully.", "success");
           await loadApartments();
         } catch (error) {
           console.error("Delete apartment error:", error);
-          alert(error.message || "Something went wrong while deleting the apartment.");
+          showFeedback(error.message || "Something went wrong while deleting the apartment.", "error");
         }
       });
     });
@@ -118,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (apartmentList) {
         apartmentList.innerHTML = `<p>${error.message || "Something went wrong while loading apartments."}</p>`;
       }
+      showFeedback(error.message || "Something went wrong while loading apartments.", "error");
     }
   }
 
@@ -133,12 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const isAvailable = document.getElementById("isAvailable").value === "true";
 
       if (!title || !city || !address || !price) {
-        alert("Please fill in all required fields.");
+        showFeedback("Please fill in all required fields.", "error");
         return;
       }
 
       if (isNaN(price) || Number(price) <= 0) {
-        alert("Price must be a valid positive number.");
+        showFeedback("Price must be a valid positive number.", "error");
         return;
       }
 
@@ -181,10 +199,15 @@ document.addEventListener("DOMContentLoaded", () => {
         apartmentIdInput.value = "";
         submitBtn.textContent = "Save Apartment";
 
+        showFeedback(
+          id ? "Apartment updated successfully." : "Apartment saved successfully.",
+          "success"
+        );
+
         await loadApartments();
       } catch (error) {
         console.error("Save apartment error:", error);
-        alert(error.message || "Something went wrong while saving the apartment.");
+        showFeedback(error.message || "Something went wrong while saving the apartment.", "error");
       }
     });
   }
@@ -201,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       renderApartments(filtered);
+      showFeedback("Search completed.", "success");
     });
   }
 
@@ -209,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searchTitleInput.value = "";
       searchCityInput.value = "";
       renderApartments(apartmentsData);
+      showFeedback("Filters were reset.", "success");
     });
   }
 

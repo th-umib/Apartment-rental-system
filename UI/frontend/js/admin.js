@@ -1,128 +1,254 @@
+alert("admin.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
   const apartmentForm = document.getElementById("apartment-form");
-  const apartmentMessage = document.getElementById("apartment-message");
   const apartmentsList = document.getElementById("admin-apartments-list");
   const totalApartments = document.getElementById("total-apartments");
 
-  function showMessage(message, type = "error") {
-    if (!apartmentMessage) return;
-    apartmentMessage.textContent = message;
-    apartmentMessage.style.color = type === "success" ? "green" : "red";
+  const apartmentIdInput = document.getElementById("apartment-id");
+  const titleInput = document.getElementById("title");
+  const cityInput = document.getElementById("city");
+  const addressInput = document.getElementById("address");
+  const priceInput = document.getElementById("price");
+  const saveApartmentBtn = document.getElementById("save-apartment-btn");
+
+  function ensureMessageStyles() {
+    if (document.getElementById("top-message-style")) return;
+
+    const style = document.createElement("style");
+    style.id = "top-message-style";
+    style.textContent = `
+      #top-message-box {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        min-width: 280px;
+        max-width: 380px;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        z-index: 99999;
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      #top-message-box.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #top-message-box.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      #top-message-box.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+    `;
+    document.head.appendChild(style);
   }
 
-  async function fetchApartments() {
-    const response = await fetch("/apartments");
+  function ensureMessageBox() {
+    let box = document.getElementById("top-message-box");
 
-    if (!response.ok) {
-      throw new Error("Failed to load apartments.");
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "top-message-box";
+      document.body.appendChild(box);
     }
 
-    return await response.json();
+    return box;
   }
 
-  function renderApartments(apartments) {
-    if (!apartmentsList) return;
+  ensureMessageStyles();
+  const topMessageBox = ensureMessageBox();
 
-    if (!Array.isArray(apartments) || apartments.length === 0) {
-      apartmentsList.innerHTML = "<p>No apartments loaded yet.</p>";
+  function showTopMessage(message, type = "success") {
+    if (!topMessageBox) {
+      alert(message);
       return;
     }
 
-    apartmentsList.innerHTML = apartments
-      .map(
-        (apartment) => `
-          <div class="admin-item" style="border:1px solid #ddd; padding:12px; border-radius:10px; margin-bottom:12px;">
-            <h3>${apartment.title || "Untitled Apartment"}</h3>
-            <p><strong>Description:</strong> ${apartment.description || "N/A"}</p>
-            <p><strong>City:</strong> ${apartment.city || "N/A"}</p>
-            <p><strong>Address:</strong> ${apartment.address || "N/A"}</p>
-            <p><strong>Price per month:</strong> ${apartment.price_per_month ?? 0} €</p>
-            <p><strong>Bedrooms:</strong> ${apartment.bedrooms ?? 0}</p>
-            <p><strong>Bathrooms:</strong> ${apartment.bathrooms ?? 0}</p>
-            <p><strong>Availability:</strong> ${
-              apartment.is_available === false || apartment.isAvailable === false
-                ? "Not Available"
-                : "Available"
-            }</p>
-          </div>
-        `
-      )
-      .join("");
+    topMessageBox.textContent = message;
+    topMessageBox.className = `show ${type}`;
+
+    setTimeout(() => {
+      topMessageBox.className = "";
+      topMessageBox.textContent = "";
+      topMessageBox.style.display = "none";
+    }, 3000);
+  }
+
+  function resetForm() {
+    if (apartmentForm) apartmentForm.reset();
+    if (apartmentIdInput) apartmentIdInput.value = "";
+    if (saveApartmentBtn) saveApartmentBtn.textContent = "Add Apartment";
   }
 
   async function loadApartments() {
     try {
-      const apartments = await fetchApartments();
+      const response = await fetch("http://localhost:3000/apartments");
+      const apartments = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Failed to load apartments.");
+      }
 
       if (totalApartments) {
         totalApartments.textContent = Array.isArray(apartments) ? apartments.length : 0;
       }
 
-      renderApartments(apartments);
+      if (!apartmentsList) return;
+
+      if (!Array.isArray(apartments) || apartments.length === 0) {
+        apartmentsList.innerHTML = "<p>No apartments loaded yet.</p>";
+        return;
+      }
+
+      apartmentsList.innerHTML = apartments
+        .map(
+          (apartment) => `
+            <div class="admin-item">
+              <h3>${apartment.title}</h3>
+              <p><strong>City:</strong> ${apartment.city}</p>
+              <p><strong>Address:</strong> ${apartment.address}</p>
+              <p><strong>Price:</strong> €${apartment.price}</p>
+              <div class="admin-item-actions">
+                <button class="edit-btn" data-id="${apartment.id}">Edit</button>
+                <button class="delete-btn" data-id="${apartment.id}">Delete</button>
+              </div>
+            </div>
+          `
+        )
+        .join("");
+
+      document.querySelectorAll(".edit-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const apartment = apartments.find(
+            (item) => String(item.id) === String(button.dataset.id)
+          );
+
+          if (!apartment) {
+            showTopMessage("Apartment could not be loaded for editing.", "error");
+            return;
+          }
+
+          if (apartmentIdInput) apartmentIdInput.value = apartment.id;
+          if (titleInput) titleInput.value = apartment.title;
+          if (cityInput) cityInput.value = apartment.city;
+          if (addressInput) addressInput.value = apartment.address;
+          if (priceInput) priceInput.value = apartment.price;
+          if (saveApartmentBtn) saveApartmentBtn.textContent = "Update Apartment";
+
+          showTopMessage("Apartment loaded for editing.", "success");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll(".delete-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const apartmentId = button.dataset.id;
+
+          try {
+            const response = await fetch(`http://localhost:3000/apartments/${apartmentId}`, {
+              method: "DELETE",
+            });
+
+            let result = {};
+            const text = await response.text();
+            try {
+              result = text ? JSON.parse(text) : {};
+            } catch {
+              result = {};
+            }
+
+            if (!response.ok) {
+              throw new Error(result.message || "Failed to delete apartment.");
+            }
+
+            showTopMessage("Apartment deleted successfully.", "success");
+            resetForm();
+            loadApartments();
+          } catch (error) {
+            showTopMessage(
+              error.message || "Something went wrong while deleting the apartment.",
+              "error"
+            );
+          }
+        });
+      });
     } catch (error) {
-      console.error("Load apartments error:", error);
-      showMessage(error.message || "Something went wrong while loading apartments.");
+      showTopMessage(
+        error.message || "Something went wrong while loading apartments.",
+        "error"
+      );
     }
   }
 
-  if (!apartmentForm) return;
+  if (apartmentForm) {
+    apartmentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-  apartmentForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      const apartmentId = apartmentIdInput ? apartmentIdInput.value.trim() : "";
+      const isEditing = apartmentId !== "";
 
-    const title = document.getElementById("title")?.value.trim();
-    const description = document.getElementById("description")?.value.trim();
-    const city = document.getElementById("city")?.value.trim();
-    const address = document.getElementById("address")?.value.trim();
-    const price_per_month = document.getElementById("price_per_month")?.value.trim();
-    const bedrooms = document.getElementById("bedrooms")?.value.trim();
-    const bathrooms = document.getElementById("bathrooms")?.value.trim();
+      const apartmentData = {
+        title: titleInput ? titleInput.value.trim() : "",
+        city: cityInput ? cityInput.value.trim() : "",
+        address: addressInput ? addressInput.value.trim() : "",
+        price: priceInput ? Number(priceInput.value) : 0,
+      };
 
-    if (!title || !description || !city || !address || !price_per_month || !bedrooms || !bathrooms) {
-      showMessage("Please fill in all required fields.");
-      return;
-    }
+      try {
+        const response = await fetch(
+          isEditing
+            ? `http://localhost:3000/apartments/${apartmentId}`
+            : "http://localhost:3000/apartments",
+          {
+            method: isEditing ? "PUT" : "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(apartmentData),
+          }
+        );
 
-    if (
-      isNaN(price_per_month) || Number(price_per_month) <= 0 ||
-      isNaN(bedrooms) || Number(bedrooms) < 0 ||
-      isNaN(bathrooms) || Number(bathrooms) < 0
-    ) {
-      showMessage("Please enter valid numeric values.");
-      return;
-    }
+        let result = {};
+        const text = await response.text();
+        try {
+          result = text ? JSON.parse(text) : {};
+        } catch {
+          result = {};
+        }
 
-    try {
-      const response = await fetch("/apartments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          city,
-          address,
-          price_per_month: Number(price_per_month),
-          bedrooms: Number(bedrooms),
-          bathrooms: Number(bathrooms)
-        })
-      });
+        if (!response.ok) {
+          throw new Error(result.message || "Failed to save apartment.");
+        }
 
-      const data = await response.json();
+        if (isEditing) {
+          showTopMessage("Apartment updated successfully.", "success");
+        } else {
+          showTopMessage("Apartment added successfully.", "success");
+        }
 
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to add apartment.");
+        resetForm();
+        loadApartments();
+      } catch (error) {
+        showTopMessage(
+          error.message || "Something went wrong while saving the apartment.",
+          "error"
+        );
       }
-
-      showMessage("Apartment added successfully.", "success");
-      apartmentForm.reset();
-      loadApartments();
-    } catch (error) {
-      console.error("Create apartment error:", error);
-      showMessage(error.message || "Something went wrong while creating the apartment.");
-    }
-  });
+    });
+  }
 
   loadApartments();
 });

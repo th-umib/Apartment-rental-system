@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
+  <!-- Top message box -->
+  <div id="top-message-box" class="top-message-box"></div>
+
   <header class="site-header">
     <a href="index.html" class="site-brand">
       <div class="site-brand-box">🏢</div>
@@ -24,104 +27,84 @@
     </nav>
   </header>
 
-  <main class="admin-page" style="padding: 24px; max-width: 1200px; margin: 0 auto;">
-    <section class="admin-hero" style="margin-bottom: 30px;">
-      <h1 style="margin-bottom: 8px;">Admin Dashboard</h1>
-      <p style="margin: 0; color: #555;">
-        Manage apartments and review the main system data from one place.
-      </p>
+  <main class="admin-page">
+    <section class="admin-hero">
+      <h1>Admin Dashboard</h1>
+      <p>Manage apartments, update listings, and control your rental system easily.</p>
     </section>
 
-    <section class="admin-summary" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
-      <div class="admin-card" style="padding: 18px; border: 1px solid #ddd; border-radius: 12px; min-width: 220px; background: #fff;">
-        <h3 style="margin-top: 0;">Total Apartments</h3>
-        <p id="total-apartments" style="font-size: 28px; font-weight: bold; margin-bottom: 0;">0</p>
+    <section class="admin-stats">
+      <div class="stat-card">
+        <h3>Total Apartments</h3>
+        <p id="total-apartments">0</p>
       </div>
     </section>
 
-    <section class="admin-form-section" style="margin-bottom: 40px;">
-      <h2 style="margin-bottom: 16px;">Add New Apartment</h2>
+    <section class="admin-section" id="apartments-section">
+      <h2>Manage Apartments</h2>
 
-      <form id="apartment-form" style="display: grid; gap: 14px; max-width: 700px;">
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Apartment title"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
+      <form id="apartment-form" class="admin-form">
+        <input type="hidden" id="apartment-id" />
 
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Description"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; min-height: 100px;"
-        ></textarea>
+        <div class="form-group">
+          <label for="title">Apartment Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter apartment title"
+            required
+          />
+        </div>
 
-        <input
-          type="text"
-          id="city"
-          name="city"
-          placeholder="City"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="Enter city"
+            required
+          />
+        </div>
 
-        <input
-          type="text"
-          id="address"
-          name="address"
-          placeholder="Address"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            placeholder="Enter apartment address"
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          id="price_per_month"
-          name="price_per_month"
-          placeholder="Price per month"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
+        <div class="form-group">
+          <label for="price">Price (€)</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            placeholder="Enter apartment price"
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          id="bedrooms"
-          name="bedrooms"
-          placeholder="Bedrooms"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
-
-        <input
-          type="number"
-          id="bathrooms"
-          name="bathrooms"
-          placeholder="Bathrooms"
-          required
-          style="padding: 12px; border: 1px solid #ccc; border-radius: 8px;"
-        />
-
-        <button
-          type="submit"
-          style="padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;"
-        >
+        <button type="submit" id="save-apartment-btn" class="primary-btn">
           Add Apartment
         </button>
       </form>
 
-      <p id="apartment-message" style="margin-top: 14px; font-weight: bold;"></p>
-    </section>
-
-    <section class="admin-list-section">
-      <h2 style="margin-bottom: 16px;">All Apartments</h2>
-      <div id="admin-apartments-list"></div>
+      <div class="admin-list-wrapper">
+        <h3>Apartment List</h3>
+        <div id="admin-apartments-list" class="admin-list">
+          <p>No apartments loaded yet.</p>
+        </div>
+      </div>
     </section>
   </main>
-
   <script src="./js/admin.js"></script>
 </body>
 </html>
+
+ 
