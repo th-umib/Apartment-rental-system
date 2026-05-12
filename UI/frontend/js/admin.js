@@ -1,4 +1,5 @@
-alert("admin.js loaded");
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const apartmentForm = document.getElementById("apartment-form");
   const apartmentsList = document.getElementById("admin-apartments-list");
@@ -70,24 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ensureMessageStyles();
   const topMessageBox = ensureMessageBox();
+function showTopMessage(message, type = "success") {
+  let box = document.getElementById("top-message-box");
 
-  function showTopMessage(message, type = "success") {
-    if (!topMessageBox) {
-      alert(message);
-      return;
-    }
-
-    topMessageBox.textContent = message;
-    topMessageBox.className = `show ${type}`;
-
-    setTimeout(() => {
-      topMessageBox.className = "";
-      topMessageBox.textContent = "";
-      topMessageBox.style.display = "none";
-    }, 3000);
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "top-message-box";
+    box.className = "top-message-box";
+    document.body.appendChild(box);
   }
 
-  function resetForm() {
+  box.textContent = message;
+  box.className = `top-message-box ${type} show`;
+
+  setTimeout(() => {
+    box.classList.remove("show");
+  }, 3000);
+}
+ function resetForm() {
     if (apartmentForm) apartmentForm.reset();
     if (apartmentIdInput) apartmentIdInput.value = "";
     if (saveApartmentBtn) saveApartmentBtn.textContent = "Add Apartment";
