@@ -1,4 +1,6 @@
-
+if (localStorage.getItem("smartapart_admin_logged_in") !== "true") {
+  window.location.href = "/admin-login";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const apartmentForm = document.getElementById("apartment-form");
@@ -12,83 +14,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const priceInput = document.getElementById("price");
   const saveApartmentBtn = document.getElementById("save-apartment-btn");
 
-  function ensureMessageStyles() {
-    if (document.getElementById("top-message-style")) return;
-
-    const style = document.createElement("style");
-    style.id = "top-message-style";
-    style.textContent = `
-      #top-message-box {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        min-width: 280px;
-        max-width: 380px;
-        padding: 14px 18px;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 600;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        z-index: 99999;
-        display: none;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-      }
-
-      #top-message-box.show {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      #top-message-box.success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-      }
-
-      #top-message-box.error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
   function ensureMessageBox() {
     let box = document.getElementById("top-message-box");
 
     if (!box) {
       box = document.createElement("div");
       box.id = "top-message-box";
+      box.className = "top-message-box";
       document.body.appendChild(box);
     }
 
     return box;
   }
 
-  ensureMessageStyles();
-  const topMessageBox = ensureMessageBox();
-function showTopMessage(message, type = "success") {
-  let box = document.getElementById("top-message-box");
+  function showTopMessage(message, type = "success") {
+    const box = ensureMessageBox();
 
-  if (!box) {
-    box = document.createElement("div");
-    box.id = "top-message-box";
-    box.className = "top-message-box";
-    document.body.appendChild(box);
+    box.textContent = message;
+    box.className = `top-message-box ${type} show`;
+
+    setTimeout(() => {
+      box.classList.remove("show");
+    }, 3000);
   }
 
-  box.textContent = message;
-  box.className = `top-message-box ${type} show`;
-
-  setTimeout(() => {
-    box.classList.remove("show");
-  }, 3000);
-}
- function resetForm() {
+  function resetForm() {
     if (apartmentForm) apartmentForm.reset();
     if (apartmentIdInput) apartmentIdInput.value = "";
     if (saveApartmentBtn) saveApartmentBtn.textContent = "Add Apartment";
@@ -104,7 +54,9 @@ function showTopMessage(message, type = "success") {
       }
 
       if (totalApartments) {
-        totalApartments.textContent = Array.isArray(apartments) ? apartments.length : 0;
+        totalApartments.textContent = Array.isArray(apartments)
+          ? apartments.length
+          : 0;
       }
 
       if (!apartmentsList) return;
@@ -118,13 +70,18 @@ function showTopMessage(message, type = "success") {
         .map(
           (apartment) => `
             <div class="admin-item">
-              <h3>${apartment.title}</h3>
-              <p><strong>City:</strong> ${apartment.city}</p>
-              <p><strong>Address:</strong> ${apartment.address}</p>
-              <p><strong>Price:</strong> €${apartment.price}</p>
+              <h3>${apartment.title || "Untitled Apartment"}</h3>
+              <p><strong>City:</strong> ${apartment.city || "Not specified"}</p>
+              <p><strong>Address:</strong> ${apartment.address || "Not specified"}</p>
+              <p><strong>Price:</strong> €${apartment.price_per_month ?? "0.00"}</p>
+
               <div class="admin-item-actions">
-                <button class="edit-btn" data-id="${apartment.id}">Edit</button>
-                <button class="delete-btn" data-id="${apartment.id}">Delete</button>
+                <button type="button" class="edit-btn" data-id="${apartment.id}">
+                  Edit
+                </button>
+                <button type="button" class="delete-btn" data-id="${apartment.id}">
+                  Delete
+                </button>
               </div>
             </div>
           `
@@ -132,7 +89,10 @@ function showTopMessage(message, type = "success") {
         .join("");
 
       document.querySelectorAll(".edit-btn").forEach((button) => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
           const apartment = apartments.find(
             (item) => String(item.id) === String(button.dataset.id)
           );
@@ -143,28 +103,41 @@ function showTopMessage(message, type = "success") {
           }
 
           if (apartmentIdInput) apartmentIdInput.value = apartment.id;
-          if (titleInput) titleInput.value = apartment.title;
-          if (cityInput) cityInput.value = apartment.city;
-          if (addressInput) addressInput.value = apartment.address;
-          if (priceInput) priceInput.value = apartment.price;
+          if (titleInput) titleInput.value = apartment.title || "";
+          if (cityInput) cityInput.value = apartment.city || "";
+          if (addressInput) addressInput.value = apartment.address || "";
+          if (priceInput) priceInput.value = apartment.price_per_month || "";
           if (saveApartmentBtn) saveApartmentBtn.textContent = "Update Apartment";
 
-          showTopMessage("Apartment loaded for editing.", "success");
           window.scrollTo({ top: 0, behavior: "smooth" });
+
+          setTimeout(() => {
+            showTopMessage(
+              "Apartment loaded for editing. You can now update the details.",
+              "success"
+            );
+          }, 300);
         });
       });
 
       document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
           const apartmentId = button.dataset.id;
 
           try {
-            const response = await fetch(`http://localhost:3000/apartments/${apartmentId}`, {
-              method: "DELETE",
-            });
+            const response = await fetch(
+              `http://localhost:3000/apartments/${apartmentId}`,
+              {
+                method: "DELETE",
+              }
+            );
 
             let result = {};
             const text = await response.text();
+
             try {
               result = text ? JSON.parse(text) : {};
             } catch {
@@ -180,7 +153,8 @@ function showTopMessage(message, type = "success") {
             loadApartments();
           } catch (error) {
             showTopMessage(
-              error.message || "Something went wrong while deleting the apartment.",
+              error.message ||
+                "Something went wrong while deleting the apartment.",
               "error"
             );
           }
@@ -205,7 +179,7 @@ function showTopMessage(message, type = "success") {
         title: titleInput ? titleInput.value.trim() : "",
         city: cityInput ? cityInput.value.trim() : "",
         address: addressInput ? addressInput.value.trim() : "",
-        price: priceInput ? Number(priceInput.value) : 0,
+        price_per_month: priceInput ? Number(priceInput.value) : 0,
       };
 
       try {
@@ -224,6 +198,7 @@ function showTopMessage(message, type = "success") {
 
         let result = {};
         const text = await response.text();
+
         try {
           result = text ? JSON.parse(text) : {};
         } catch {

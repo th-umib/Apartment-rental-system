@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SmartApart | Admin Login</title>
+
+  <link rel="icon" href="./assets/favicon.png?v=3" type="image/png" />
+  <link rel="shortcut icon" href="./assets/favicon.png?v=3" type="image/png" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <nav class="site-nav">
+  <a href="/" class="site-nav-btn">Home</a>
+  <a href="/apartments" class="site-nav-btn">Apartments</a>
+  <a href="/map" class="site-nav-btn">Map</a>
+  <a href="/agents" class="site-nav-btn">Agents</a>
+  <a href="/pricing" class="site-nav-btn">Pricing</a>
+  <a href="/blog" class="site-nav-btn">Blog</a>
+  <a href="/about" class="site-nav-btn">About</a>
+  <a href="/bookings" class="site-nav-btn">Bookings</a>
+  <a href="/inquiries" class="site-nav-btn">Inquiries</a>
+  <a href="/admin-login" class="site-nav-btn active">Admin</a>
+</nav>
+
+  <main class="admin-login-page">
+
+    <section class="admin-login-left">
+      <div class="admin-login-overlay"></div>
+
+      <a href="index.html" class="admin-login-brand">
+        <div class="site-brand-box">🏢</div>
+        <span>SmartApart</span>
+      </a>
+
+      <div class="admin-login-info">
+        <span class="section-tag">Admin Access</span>
+        <h1>Control the rental platform in one place</h1>
+        <p>
+          Manage apartments, review bookings, and handle user inquiries through
+          a clean and protected admin dashboard.
+        </p>
+
+        <div class="admin-login-features">
+          <div>Apartment listings</div>
+          <div>Booking requests</div>
+          <div>User inquiries</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-login-right">
+      <div class="admin-login-card">
+
+        <a href="index.html" class="back-home-link">← Back to Home</a>
+
+        <div class="admin-login-header">
+          <span class="section-tag">Login</span>
+          <h2>Admin Login</h2>
+          <p>
+            Enter your admin credentials to continue to the dashboard.
+          </p>
+        </div>
+
+        <form id="admin-login-form" class="admin-login-form">
+          <div class="form-group">
+            <label for="admin-email">Email</label>
+            <input
+              type="email"
+              id="admin-email"
+              placeholder="Enter admin email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="admin-password">Password</label>
+            <input
+              type="password"
+              id="admin-password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary admin-login-btn">
+            Login to Dashboard
+          </button>
+
+          <p id="admin-login-message" class="admin-login-message"></p>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const adminLoginForm = document.getElementById("admin-login-form");
+    const adminLoginMessage = document.getElementById("admin-login-message");
+
+    const ADMIN_EMAIL = "tringa.hyseni@umib.net";
+    const ADMIN_PASSWORD = "12345678";
+
+    adminLoginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("admin-email").value.trim();
+      const password = document.getElementById("admin-password").value.trim();
+
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        localStorage.setItem("smartapart_admin_logged_in", "true");
+        localStorage.setItem("smartapart_admin_email", email);
+
+        adminLoginMessage.textContent = "Login successful. Redirecting to dashboard...";
+        adminLoginMessage.className = "admin-login-message success";
+
+        setTimeout(function () {
+          
+          window.location.href = "/admin";
+        }, 700);
+      } else {
+        adminLoginMessage.textContent = "Invalid email or password. Please try again.";
+        adminLoginMessage.className = "admin-login-message error";
+      }
+    });
+  </script>
+
+</body>
+</html>

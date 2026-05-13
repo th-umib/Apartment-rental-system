@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/apartments", "destination": "/apartments.html" },
+    { "source": "/map", "destination": "/map.html" },
+    { "source": "/agents", "destination": "/agents.html" },
+    { "source": "/pricing", "destination": "/pricing.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/bookings", "destination": "/bookings.html" },
+    { "source": "/inquiries", "destination": "/inquiries.html" },
+    { "source": "/admin-login", "destination": "/admin-login.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}
