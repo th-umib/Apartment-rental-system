@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartApart | Apartments</title>
-  <link rel="icon" href="./assets/favicon.png?v=3" type="image/png" />
-  <link rel="shortcut icon" href="./assets/favicon.png?v=3" type="image/png" />
   <link rel="stylesheet" href="./css/style.css" />
 </head>
+
 <body>
   <header class="site-header">
     <a href="index.html" class="site-brand">
@@ -15,155 +14,117 @@
       <span class="site-brand-text">SmartApart</span>
     </a>
 
-  <nav class="site-nav">
-  <a href="/" class="site-nav-btn">Home</a>
-  <a href="/apartments" class="site-nav-btn active">Apartments</a>
-  <a href="/map" class="site-nav-btn">Map</a>
-  <a href="/agents" class="site-nav-btn">Agents</a>
-  <a href="/pricing" class="site-nav-btn">Pricing</a>
-  <a href="/blog" class="site-nav-btn">Blog</a>
-  <a href="/about" class="site-nav-btn">About</a>
-  <a href="/bookings" class="site-nav-btn">Bookings</a>
-  <a href="/inquiries" class="site-nav-btn">Inquiries</a>
-  <a href="/admin-login" class="site-nav-btn">Admin</a>
-</nav>
+    <nav class="site-nav">
+      <a href="index.html" class="site-nav-btn">Home</a>
+      <a href="apartments.html" class="site-nav-btn active">Apartments</a>
+      <a href="map.html" class="site-nav-btn">Map</a>
+      <a href="agents.html" class="site-nav-btn">Agents</a>
+      <a href="pricing.html" class="site-nav-btn">Pricing</a>
+      <a href="blog.html" class="site-nav-btn">Blog</a>
+      <a href="about.html" class="site-nav-btn">About</a>
+      <a href="bookings.html" class="site-nav-btn">Bookings</a>
+      <a href="inquiries.html" class="site-nav-btn">Inquiries</a>
+      <a href="admin-login.html" class="site-nav-btn">Admin</a>
+    </nav>
   </header>
 
-  <section class="page-hero small-hero">
-    <div class="container">
-      <span class="section-tag">APARTMENTS</span>
-      <h1>Find Your Ideal Apartment</h1>
-      <p>
-        Browse available properties, filter by city, and manage listings
-        through your apartment rental system.
-      </p>
-    </div>
-  </section>
+  <main>
+    <section class="page-section">
+      <div class="section-intro">
+        <span class="section-label">Available Apartments</span>
+        <h1>Browse Apartment Listings</h1>
+        <p>
+          Explore available apartments, compare locations and prices, and choose
+          the home that best fits your needs.
+        </p>
+      </div>
 
-  <main class="section">
-    <div class="container">
-      <section class="card form-section-modern">
-        <div class="section-row">
-          <h2>Add / Update Apartment</h2>
-        </div>
-
-        <form id="apartment-form" class="modern-form">
-          <input type="hidden" id="apartment-id" />
-
-          <div class="form-grid-modern">
-            <div class="form-group">
-              <label for="title">Apartment Title</label>
-              <input type="text" id="title" placeholder="Enter apartment title" required />
-            </div>
-
-            <div class="form-group">
-              <label for="city">City</label>
-              <input type="text" id="city" placeholder="Enter city" required />
-            </div>
-
-            <div class="form-group">
-              <label for="address">Address</label>
-              <input type="text" id="address" placeholder="Enter address" required />
-            </div>
-
-            <div class="form-group">
-              <label for="price">Price (€)</label>
-              <input type="number" id="price" placeholder="Enter price" required />
-            </div>
+      <div class="filter-card">
+        <div class="filter-grid">
+          <div>
+            <label for="search-input">Search</label>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search by apartment name, city, or address"
+            />
           </div>
 
-          <div class="form-group form-select-wrap">
-            <label for="isAvailable">Availability</label>
-            <select id="isAvailable">
-              <option value="true">Available</option>
-              <option value="false">Not Available</option>
+          <div>
+            <label for="city-filter">City</label>
+            <select id="city-filter">
+              <option value="">All cities</option>
+              <option value="Mitrovica">Mitrovica</option>
+              <option value="Prishtina">Prishtina</option>
+              <option value="Peja">Peja</option>
+              <option value="Prizren">Prizren</option>
+              <option value="Vushtrri">Vushtrri</option>
             </select>
           </div>
 
-          <div class="form-actions">
-            <button type="submit" id="submit-btn" class="btn btn-primary">Save Apartment</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="card filter-card-modern">
-        <div class="section-row">
-          <h2>Search / Filter Apartments</h2>
-        </div>
-
-        <div class="filter-grid-modern">
-          <div class="form-group">
-            <label for="search-title">Search by Title</label>
-            <input type="text" id="search-title" placeholder="e.g. Modern Apartment" />
-          </div>
-
-          <div class="form-group">
-            <label for="search-city">Search by City</label>
-            <input type="text" id="search-city" placeholder="e.g. Mitrovicë" />
-          </div>
-
-          <div class="filter-actions">
-            <button type="button" id="search-btn" class="btn btn-primary">Search</button>
-            <button type="button" id="reset-btn" class="btn btn-secondary-outline">Reset</button>
+          <div>
+            <label for="price-filter">Maximum Price</label>
+            <select id="price-filter">
+              <option value="">Any price</option>
+              <option value="250">Up to €250</option>
+              <option value="350">Up to €350</option>
+              <option value="500">Up to €500</option>
+            </select>
           </div>
         </div>
-      </section>
 
-      <section class="section-listings">
-        <div class="section-row">
+        <div class="filter-actions">
+          <button type="button" class="primary-btn" id="search-btn">Search</button>
+          <button type="button" class="secondary-btn" id="reset-btn">Reset</button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div>
           <h2>Apartment Listings</h2>
-          <span class="list-note">Manage and review all available apartments</span>
+          <p>Manage your rental search by reviewing available apartment options.</p>
         </div>
+      </div>
 
-        <div id="apartment-list" class="apartment-list apartment-grid-modern"></div>
-      </section>
-    </div>
+      <div id="apartments-list" class="apartments-grid"></div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-grid">
+  <footer class="site-footer">
+    <div class="footer-grid">
       <div>
-        <div class="logo footer-logo">
-          <div class="logo-box">🏢</div>
-          <span>SmartApart</span>
-        </div>
+        <div class="footer-logo">🏢</div>
+        <h3>SmartApart</h3>
         <p>
-          Modern apartment management platform for Mitrovica.
-          Find your perfect home with ease and confidence.
+          Modern apartment management platform for Mitrovica. Find your perfect
+          home with ease and confidence.
         </p>
       </div>
 
       <div>
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="apartments.html">Browse Apartments</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="inquiries.html">Inquiries</a></li>
-          <li><a href="login.html">My Favorites</a></li>
-        </ul>
+        <h3>Quick Links</h3>
+        <a href="apartments.html">Browse Apartments</a>
+        <a href="about.html">About Us</a>
+        <a href="inquiries.html">Inquiries</a>
+        <a href="bookings.html">Bookings</a>
       </div>
 
       <div>
-        <h4>Contact Info</h4>
-        <p>Rruga Mbretëresha Teutë, Mitrovicë 40000, Kosovo</p>
+        <h3>Contact Info</h3>
+        <p>Rruga Mbretëresha Teutë, Mitrovicë</p>
+        <p>40000, Kosovo</p>
         <p>+383 44 123 456</p>
         <p>info@smartapart.com</p>
-        <p>Mon–Fri: 09:00–17:00</p>
       </div>
 
       <div>
-        <h4>Stay Updated</h4>
+        <h3>Stay Updated</h3>
         <p>Get notified about new apartment listings.</p>
-        <form class="newsletter-form">
+        <form class="footer-form">
           <input type="email" placeholder="Your email" />
-          <button type="submit" class="btn btn-primary">→</button>
+          <button type="button">→</button>
         </form>
       </div>
-    </div>
-
-    <div class="container footer-bottom">
-      <p>© 2026 Smart Apartment Management System. All rights reserved.</p>
-      <p>Tringa Hyseni — University of Mitrovica "Isa Boletini"</p>
     </div>
   </footer>
 
