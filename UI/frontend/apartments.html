@@ -5,6 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartApart | Apartments</title>
   <link rel="stylesheet" href="./css/style.css" />
+
+  <style>
+    .apartments-page {
+      background: #f5f8fc;
+      padding: 70px 8%;
+    }
+
+    .apartments-intro {
+      text-align: center;
+      max-width: 850px;
+      margin: 0 auto 40px;
+    }
+
+    .apartments-intro span {
+      color: #1997ce;
+      font-weight: 800;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .apartments-intro h1 {
+      color: #17233c;
+      font-size: 44px;
+      margin: 14px 0 14px;
+      letter-spacing: 1px;
+    }
+
+    .apartments-intro p {
+      color: #50627d;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid #dce7f2;
+      border-radius: 24px;
+      padding: 32px;
+      margin: 0 auto 55px;
+      max-width: 1150px;
+      box-shadow: 0 18px 45px rgba(15, 35, 70, 0.08);
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 22px;
+    }
+
+    .filter-field label {
+      display: block;
+      color: #17233c;
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .filter-field input,
+    .filter-field select {
+      width: 100%;
+      height: 55px;
+      border: 1px solid #dce7f2;
+      border-radius: 14px;
+      padding: 0 16px;
+      font-size: 15px;
+      color: #17233c;
+      background: #ffffff;
+      outline: none;
+    }
+
+    .filter-field input:focus,
+    .filter-field select:focus {
+      border-color: #1997ce;
+      box-shadow: 0 0 0 4px rgba(25, 151, 206, 0.12);
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 14px;
+      padding: 15px 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .primary-btn {
+      background: #0a1f55;
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(10, 31, 85, 0.18);
+    }
+
+    .secondary-btn {
+      background: #ffffff;
+      color: #0a1f55;
+      border: 1px solid #c9d8ea;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .section-header h2 {
+      color: #17233c;
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: #50627d;
+      font-size: 17px;
+    }
+
+    #apartments-list,
+    .apartments-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
+    }
+
+    .apartment-card {
+      background: #ffffff;
+      border: 1px solid #dce7f2;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 18px 45px rgba(15, 35, 70, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .apartment-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 55px rgba(15, 35, 70, 0.14);
+    }
+
+    .apartment-content h3 {
+      color: #17233c;
+      font-size: 23px;
+      margin-bottom: 14px;
+    }
+
+    .apartment-content p {
+      color: #50627d;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .apartment-meta {
+      display: grid;
+      gap: 9px;
+      margin: 18px 0 22px;
+    }
+
+    .apartment-meta span {
+      color: #50627d;
+      line-height: 1.5;
+    }
+
+    .apartment-meta strong {
+      color: #17233c;
+    }
+
+    @media (max-width: 1000px) {
+      .filter-grid,
+      #apartments-list,
+      .apartments-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .apartments-page {
+        padding: 45px 6%;
+      }
+
+      .apartments-intro h1 {
+        font-size: 32px;
+      }
+
+      .filter-grid,
+      #apartments-list,
+      .apartments-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-actions {
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -29,9 +243,9 @@
   </header>
 
   <main>
-    <section class="page-section">
-      <div class="section-intro">
-        <span class="section-label">Available Apartments</span>
+    <section class="apartments-page">
+      <div class="apartments-intro">
+        <span>Available Apartments</span>
         <h1>Browse Apartment Listings</h1>
         <p>
           Explore available apartments, compare locations and prices, and choose
@@ -41,7 +255,7 @@
 
       <div class="filter-card">
         <div class="filter-grid">
-          <div>
+          <div class="filter-field">
             <label for="search-input">Search</label>
             <input
               type="text"
@@ -50,7 +264,7 @@
             />
           </div>
 
-          <div>
+          <div class="filter-field">
             <label for="city-filter">City</label>
             <select id="city-filter">
               <option value="">All cities</option>
@@ -62,7 +276,7 @@
             </select>
           </div>
 
-          <div>
+          <div class="filter-field">
             <label for="price-filter">Maximum Price</label>
             <select id="price-filter">
               <option value="">Any price</option>
@@ -82,7 +296,10 @@
       <div class="section-header">
         <div>
           <h2>Apartment Listings</h2>
-          <p>Manage your rental search by reviewing available apartment options.</p>
+          <p>
+            Review available apartment options and continue with a booking or inquiry
+            when you find the right place.
+          </p>
         </div>
       </div>
 
