@@ -6,20 +6,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const totalApartments = document.getElementById("total-apartments");
 
-  function showMessage(title, message, type = "error") {
-    if (!apartmentsList) return;
-
-    apartmentsList.innerHTML = `
-      <div class="empty-state ${type}">
-        <h3>${title}</h3>
-        <p>${message}</p>
-      </div>
-    `;
-  }
-
-  function formatValue(value, fallback = "Not specified") {
-    return value === null || value === undefined || value === "" ? fallback : value;
-  }
+  const demoApartments = [
+    {
+      title: "Modern Apartment in Mitrovica",
+      city: "Mitrovica",
+      address: "Rruga Mbretëresha Teutë",
+      price_per_month: 350,
+      description:
+        "A modern and comfortable apartment located near the city center, suitable for students and families.",
+    },
+    {
+      title: "Cozy Studio Apartment",
+      city: "Mitrovica",
+      address: "Near University Area",
+      price_per_month: 250,
+      description:
+        "A practical studio apartment with a clean layout, ideal for students and young professionals.",
+    },
+    {
+      title: "Family Apartment",
+      city: "Vushtrri",
+      address: "Main Street",
+      price_per_month: 420,
+      description:
+        "A spacious apartment designed for family living, with easy access to daily services.",
+    },
+  ];
 
   function formatPrice(value) {
     if (value === null || value === undefined || value === "") {
@@ -30,13 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function createApartmentCard(apartment) {
-    const title = apartment.title || apartment.name || "Untitled Apartment";
+    const title = apartment.title || "Untitled Apartment";
     const city = apartment.city || "Not specified";
     const address = apartment.address || "Not specified";
     const price = apartment.price_per_month || apartment.price || 0;
     const description =
-      apartment.description ||
-      "A comfortable apartment listed on SmartApart.";
+      apartment.description || "A comfortable apartment listed on SmartApart.";
 
     return `
       <div class="apartment-card">
@@ -56,6 +67,16 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function renderApartments(apartments) {
+    if (!apartmentsList) return;
+
+    if (totalApartments) {
+      totalApartments.textContent = apartments.length;
+    }
+
+    apartmentsList.innerHTML = apartments.map(createApartmentCard).join("");
+  }
+
   async function loadApartments() {
     if (!apartmentsList) return;
 
@@ -65,43 +86,25 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("http://localhost:3000/apartments");
 
       if (!response.ok) {
-        throw new Error(
-          "Apartments are available only when the backend server is running."
-        );
+        throw new Error("Backend is not available.");
       }
 
       const contentType = response.headers.get("content-type");
 
       if (!contentType || !contentType.includes("application/json")) {
-        throw new Error(
-          "Apartments are available only when the backend server is running."
-        );
+        throw new Error("Backend did not return JSON.");
       }
 
       const apartments = await response.json();
 
-      if (totalApartments) {
-        totalApartments.textContent = Array.isArray(apartments)
-          ? apartments.length
-          : 0;
-      }
-
       if (!Array.isArray(apartments) || apartments.length === 0) {
-        showMessage(
-          "No apartments found",
-          "There are no apartments available at the moment.",
-          "success"
-        );
+        renderApartments(demoApartments);
         return;
       }
 
-      apartmentsList.innerHTML = apartments.map(createApartmentCard).join("");
+      renderApartments(apartments);
     } catch (error) {
-      showMessage(
-        "Unable to load apartments",
-        error.message || "Something went wrong while loading apartments.",
-        "error"
-      );
+      renderApartments(demoApartments);
     }
   }
 
