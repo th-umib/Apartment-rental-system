@@ -2393,3 +2393,65 @@ ul {
     max-width: unset;
   }
 }
+.booking-list,
+#booking-list,
+#bookings-list,
+#admin-bookings-list,
+#booking-requests {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.booking-card,
+.apartment-card {
+  background: #ffffff;
+  border: 1px solid #dce7f2;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 18px 45px rgba(15, 35, 70, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-card:hover,
+.apartment-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 55px rgba(15, 35, 70, 0.14);
+}
+
+.apartment-content h3 {
+  font-size: 22px;
+  color: #17233c;
+  margin-bottom: 14px;
+}
+
+.apartment-content p {
+  color: #50627d;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.apartment-content strong {
+  color: #17233c;
+}
+
+@media (max-width: 1000px) {
+  .booking-list,
+  #booking-list,
+  #bookings-list,
+  #admin-bookings-list,
+  #booking-requests {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .booking-list,
+  #booking-list,
+  #bookings-list,
+  #admin-bookings-list,
+  #booking-requests {
+    grid-template-columns: 1fr;
+  }
+}
