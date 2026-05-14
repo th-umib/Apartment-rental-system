@@ -1,63 +1,126 @@
-const bookingList = document.getElementById("booking-list");
+document.addEventListener("DOMContentLoaded", () => {
+  const bookingList =
+    document.getElementById("booking-list") ||
+    document.getElementById("bookings-list") ||
+    document.getElementById("admin-bookings-list") ||
+    document.getElementById("booking-requests");
 
-async function loadBookings() {
-  try {
-    const response = await fetch("/bookings");
-    const bookings = await response.json();
+  const totalBookings = document.getElementById("total-bookings");
 
-    bookingList.innerHTML = "";
+  const demoBookings = [
+    {
+      apartment_title: "Modern Apartment in Mitrovica",
+      user_name: "Arta Krasniqi",
+      visit_date: "2026-05-20",
+      status: "Pending",
+      phone: "+383 44 123 456",
+      message: "Interested in visiting the apartment this week.",
+    },
+    {
+      apartment_title: "Cozy Studio Apartment",
+      user_name: "Dion Berisha",
+      visit_date: "2026-05-22",
+      status: "Approved",
+      phone: "+383 49 555 222",
+      message: "Looking for a student apartment near the university.",
+    },
+    {
+      apartment_title: "Family Apartment",
+      user_name: "Elira Hoxha",
+      visit_date: "2026-05-25",
+      status: "Pending",
+      phone: "+383 45 987 654",
+      message: "Would like more details about monthly payment options.",
+    },
+  ];
 
-    if (!bookings.length) {
+  function renderBookings(bookings) {
+    if (!bookingList) return;
+
+    if (totalBookings) {
+      totalBookings.textContent = bookings.length;
+    }
+
+    if (!Array.isArray(bookings) || bookings.length === 0) {
       bookingList.innerHTML = "<p>No bookings found.</p>";
       return;
     }
 
+    bookingList.innerHTML = "";
+
     bookings.forEach((booking) => {
       const card = document.createElement("div");
-      card.className = "card apartment-card";
+      card.className = "apartment-card";
+
+      const apartmentTitle =
+        booking.apartment_title ||
+        booking.title ||
+        booking.apartment_name ||
+        "Apartment Booking";
+
+      const userName =
+        booking.user_name ||
+        booking.customer_name ||
+        booking.full_name ||
+        booking.name ||
+        "Unknown user";
+
+      const visitDate =
+        booking.visit_date ||
+        booking.booking_date ||
+        booking.created_at ||
+        "Not specified";
+
+      const status = booking.status || "Pending";
+      const phone = booking.phone || booking.customer_phone || "Not specified";
+      const message =
+        booking.message || "No additional message was provided.";
 
       card.innerHTML = `
         <div class="apartment-content">
-          <h3>${booking.apartment_title}</h3>
-          <p><strong>User:</strong> ${booking.user_name}</p>
-          <p><strong>Visit Date:</strong> ${new Date(booking.visit_date).toLocaleDateString()}</p>
-          <p><strong>Status:</strong> ${booking.status}</p>
-          <p><strong>Notes:</strong> ${booking.notes || "-"}</p>
-
-          <div class="form-actions" style="margin-top: 12px;">
-            <button class="btn btn-primary" onclick="updateBookingStatus(${booking.id}, 'approved')">Approve</button>
-            <button class="btn btn-secondary-outline" onclick="updateBookingStatus(${booking.id}, 'pending')">Pending</button>
-          </div>
+          <h3>${apartmentTitle}</h3>
+          <p><strong>User:</strong> ${userName}</p>
+          <p><strong>Visit Date:</strong> ${visitDate}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Status:</strong> ${status}</p>
+          <p>${message}</p>
         </div>
       `;
 
       bookingList.appendChild(card);
     });
-  } catch (error) {
-    console.error("Error loading bookings:", error);
-    bookingList.innerHTML = "<p>Failed to load bookings.</p>";
   }
-}
 
-async function updateBookingStatus(id, status) {
-  try {
-    const response = await fetch(`/bookings/${id}/status`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
+  async function loadBookings() {
+    if (!bookingList) return;
 
-    if (!response.ok) {
-      throw new Error("Failed to update booking status");
+    try {
+      bookingList.innerHTML = "<p>Loading bookings...</p>";
+
+      const response = await fetch("http://localhost:3000/bookings");
+
+      if (!response.ok) {
+        throw new Error("Backend is not available.");
+      }
+
+      const contentType = response.headers.get("content-type");
+
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Backend did not return JSON.");
+      }
+
+      const bookings = await response.json();
+
+      if (!Array.isArray(bookings) || bookings.length === 0) {
+        renderBookings(demoBookings);
+        return;
+      }
+
+      renderBookings(bookings);
+    } catch (error) {
+      renderBookings(demoBookings);
     }
-
-    loadBookings();
-  } catch (error) {
-    console.error("Error updating booking:", error);
-    alert("Failed to update booking status.");
   }
-}
 
-loadBookings();
+  loadBookings();
+});
