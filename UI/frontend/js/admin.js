@@ -1,230 +1,150 @@
-if (localStorage.getItem("smartapart_admin_logged_in") !== "true") {
-  window.location.href = "/admin-login";
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  const apartmentForm = document.getElementById("apartment-form");
-  const apartmentsList = document.getElementById("admin-apartments-list");
-  const totalApartments = document.getElementById("total-apartments");
+  const bookingsList =
+    document.getElementById("bookings-list") ||
+    document.getElementById("admin-bookings-list") ||
+    document.getElementById("booking-requests");
 
-  const apartmentIdInput = document.getElementById("apartment-id");
-  const titleInput = document.getElementById("title");
-  const cityInput = document.getElementById("city");
-  const addressInput = document.getElementById("address");
-  const priceInput = document.getElementById("price");
-  const saveApartmentBtn = document.getElementById("save-apartment-btn");
+  const totalBookings = document.getElementById("total-bookings");
 
-  function ensureMessageBox() {
-    let box = document.getElementById("top-message-box");
+  function showMessage(message, type = "error") {
+    if (!bookingsList) return;
 
-    if (!box) {
-      box = document.createElement("div");
-      box.id = "top-message-box";
-      box.className = "top-message-box";
-      document.body.appendChild(box);
+    bookingsList.innerHTML = `
+      <div class="empty-state ${type}">
+        <h3>${type === "error" ? "Unable to load bookings" : "No bookings found"}</h3>
+        <p>${message}</p>
+      </div>
+    `;
+  }
+
+  function formatValue(value, fallback = "Not specified") {
+    return value === null || value === undefined || value === "" ? fallback : value;
+  }
+
+  function formatPrice(value) {
+    if (value === null || value === undefined || value === "") {
+      return "€0.00";
     }
 
-    return box;
+    return `€${Number(value).toFixed(2)}`;
   }
 
-  function showTopMessage(message, type = "success") {
-    const box = ensureMessageBox();
-
-    box.textContent = message;
-    box.className = `top-message-box ${type} show`;
-
-    setTimeout(() => {
-      box.classList.remove("show");
-    }, 3000);
+  function getBookingTitle(booking) {
+    return (
+      booking.apartment_title ||
+      booking.title ||
+      booking.apartment_name ||
+      booking.property_title ||
+      "Apartment Booking"
+    );
   }
 
-  function resetForm() {
-    if (apartmentForm) apartmentForm.reset();
-    if (apartmentIdInput) apartmentIdInput.value = "";
-    if (saveApartmentBtn) saveApartmentBtn.textContent = "Add Apartment";
+  function getCustomerName(booking) {
+    return (
+      booking.customer_name ||
+      booking.full_name ||
+      booking.name ||
+      booking.client_name ||
+      "Unknown customer"
+    );
   }
 
-  async function loadApartments() {
+  function getCustomerEmail(booking) {
+    return booking.customer_email || booking.email || booking.client_email || "No email";
+  }
+
+  function getCustomerPhone(booking) {
+    return booking.customer_phone || booking.phone || booking.client_phone || "No phone";
+  }
+
+  function getBookingDate(booking) {
+    return (
+      booking.booking_date ||
+      booking.created_at ||
+      booking.date ||
+      booking.move_in_date ||
+      "Not specified"
+    );
+  }
+
+  function getBookingStatus(booking) {
+    return booking.status || booking.booking_status || "Pending";
+  }
+
+  function createBookingCard(booking) {
+    const title = getBookingTitle(booking);
+    const customerName = getCustomerName(booking);
+    const customerEmail = getCustomerEmail(booking);
+    const customerPhone = getCustomerPhone(booking);
+    const date = getBookingDate(booking);
+    const status = getBookingStatus(booking);
+    const price = booking.price_per_month || booking.price || booking.total_price;
+
+    return `
+      <div class="admin-item booking-card">
+        <div class="admin-item-header">
+          <div>
+            <h3>${title}</h3>
+            <p><strong>Customer:</strong> ${customerName}</p>
+          </div>
+          <span class="status-badge">${status}</span>
+        </div>
+
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Phone:</strong> ${customerPhone}</p>
+        <p><strong>Date:</strong> ${formatValue(date)}</p>
+        <p><strong>Price:</strong> ${formatPrice(price)}</p>
+
+        ${
+          booking.message
+            ? `<p><strong>Message:</strong> ${booking.message}</p>`
+            : ""
+        }
+      </div>
+    `;
+  }
+
+  async function loadBookings() {
+    if (!bookingsList) return;
+
     try {
-      const response = await fetch("http://localhost:3000/apartments");
-      const apartments = await response.json();
+      bookingsList.innerHTML = "<p>Loading bookings...</p>";
+
+      const response = await fetch("http://localhost:3000/bookings");
 
       if (!response.ok) {
-        throw new Error("Failed to load apartments.");
+        throw new Error(
+          "Bookings are available only when the backend server is running."
+        );
       }
 
-      if (totalApartments) {
-        totalApartments.textContent = Array.isArray(apartments)
-          ? apartments.length
-          : 0;
+      const contentType = response.headers.get("content-type");
+
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(
+          "Bookings are available only when the backend server is running."
+        );
       }
 
-      if (!apartmentsList) return;
+      const bookings = await response.json();
 
-      if (!Array.isArray(apartments) || apartments.length === 0) {
-        apartmentsList.innerHTML = "<p>No apartments loaded yet.</p>";
+      if (totalBookings) {
+        totalBookings.textContent = Array.isArray(bookings) ? bookings.length : 0;
+      }
+
+      if (!Array.isArray(bookings) || bookings.length === 0) {
+        showMessage("There are no booking requests yet.", "success");
         return;
       }
 
-      apartmentsList.innerHTML = apartments
-        .map(
-          (apartment) => `
-            <div class="admin-item">
-              <h3>${apartment.title || "Untitled Apartment"}</h3>
-              <p><strong>City:</strong> ${apartment.city || "Not specified"}</p>
-              <p><strong>Address:</strong> ${apartment.address || "Not specified"}</p>
-              <p><strong>Price:</strong> €${apartment.price_per_month ?? "0.00"}</p>
-
-              <div class="admin-item-actions">
-                <button type="button" class="edit-btn" data-id="${apartment.id}">
-                  Edit
-                </button>
-                <button type="button" class="delete-btn" data-id="${apartment.id}">
-                  Delete
-                </button>
-              </div>
-            </div>
-          `
-        )
-        .join("");
-
-      document.querySelectorAll(".edit-btn").forEach((button) => {
-        button.addEventListener("click", (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          const apartment = apartments.find(
-            (item) => String(item.id) === String(button.dataset.id)
-          );
-
-          if (!apartment) {
-            showTopMessage("Apartment could not be loaded for editing.", "error");
-            return;
-          }
-
-          if (apartmentIdInput) apartmentIdInput.value = apartment.id;
-          if (titleInput) titleInput.value = apartment.title || "";
-          if (cityInput) cityInput.value = apartment.city || "";
-          if (addressInput) addressInput.value = apartment.address || "";
-          if (priceInput) priceInput.value = apartment.price_per_month || "";
-          if (saveApartmentBtn) saveApartmentBtn.textContent = "Update Apartment";
-
-          window.scrollTo({ top: 0, behavior: "smooth" });
-
-          setTimeout(() => {
-            showTopMessage(
-              "Apartment loaded for editing. You can now update the details.",
-              "success"
-            );
-          }, 300);
-        });
-      });
-
-      document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", async (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          const apartmentId = button.dataset.id;
-
-          try {
-            const response = await fetch(
-              `http://localhost:3000/apartments/${apartmentId}`,
-              {
-                method: "DELETE",
-              }
-            );
-
-            let result = {};
-            const text = await response.text();
-
-            try {
-              result = text ? JSON.parse(text) : {};
-            } catch {
-              result = {};
-            }
-
-            if (!response.ok) {
-              throw new Error(result.message || "Failed to delete apartment.");
-            }
-
-            showTopMessage("Apartment deleted successfully.", "success");
-            resetForm();
-            loadApartments();
-          } catch (error) {
-            showTopMessage(
-              error.message ||
-                "Something went wrong while deleting the apartment.",
-              "error"
-            );
-          }
-        });
-      });
+      bookingsList.innerHTML = bookings.map(createBookingCard).join("");
     } catch (error) {
-      showTopMessage(
-        error.message || "Something went wrong while loading apartments.",
+      showMessage(
+        error.message || "Something went wrong while loading bookings.",
         "error"
       );
     }
   }
 
-  if (apartmentForm) {
-    apartmentForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const apartmentId = apartmentIdInput ? apartmentIdInput.value.trim() : "";
-      const isEditing = apartmentId !== "";
-
-      const apartmentData = {
-        title: titleInput ? titleInput.value.trim() : "",
-        city: cityInput ? cityInput.value.trim() : "",
-        address: addressInput ? addressInput.value.trim() : "",
-        price_per_month: priceInput ? Number(priceInput.value) : 0,
-      };
-
-      try {
-        const response = await fetch(
-          isEditing
-            ? `http://localhost:3000/apartments/${apartmentId}`
-            : "http://localhost:3000/apartments",
-          {
-            method: isEditing ? "PUT" : "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(apartmentData),
-          }
-        );
-
-        let result = {};
-        const text = await response.text();
-
-        try {
-          result = text ? JSON.parse(text) : {};
-        } catch {
-          result = {};
-        }
-
-        if (!response.ok) {
-          throw new Error(result.message || "Failed to save apartment.");
-        }
-
-        if (isEditing) {
-          showTopMessage("Apartment updated successfully.", "success");
-        } else {
-          showTopMessage("Apartment added successfully.", "success");
-        }
-
-        resetForm();
-        loadApartments();
-      } catch (error) {
-        showTopMessage(
-          error.message || "Something went wrong while saving the apartment.",
-          "error"
-        );
-      }
-    });
-  }
-
-  loadApartments();
+  loadBookings();
 });
