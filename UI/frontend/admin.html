@@ -1,1414 +1,913 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>SmartApart | Admin</title>
-
-  <link rel="icon" href="./assets/favicon.png?v=3" type="image/png" />
-  <link rel="shortcut icon" href="./assets/favicon.png?v=3" type="image/png" />
-  <link rel="stylesheet" href="./css/style.css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <title>SmartApart | Admin Dashboard</title>
 
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
+    * {
       margin: 0;
       padding: 0;
-    }
-
-    :root {
-      --bg: #eef5ff;
-      --surface: #ffffff;
-      --surface-soft: #f3f8ff;
-      --surface-blue: #e3f2ff;
-      --border: #cfe0f5;
-
-      --text-primary: #10203f;
-      --text-secondary: #4f6280;
-      --text-muted: #7b8da8;
-
-      --blue: #1185e0;
-      --blue-dark: #0f4c81;
-      --blue-navy: #0f1f5c;
-      --blue-sky: #38bdf8;
-
-      --danger: #dc2626;
-      --danger-light: #fff1f1;
-
-      --radius: 16px;
-      --radius-sm: 12px;
-
-      --shadow: 0 10px 28px rgba(15, 45, 80, 0.08);
-      --shadow-md: 0 16px 38px rgba(15, 45, 80, 0.13);
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: "DM Sans", sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(17, 133, 224, 0.12), transparent 28%),
-        var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
+      background: #f1f5f9;
+      color: #0f172a;
     }
 
-    /* TOP MESSAGE */
-    #top-message-box {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      font-size: 14px;
-    }
-
-    /* HEADER */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 18px 45px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      padding: 12px 2rem;
-      min-height: 68px;
-      box-shadow: 0 6px 20px rgba(15, 45, 80, 0.08);
-    }
-
-    .site-brand {
-      display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .site-brand-box {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--blue), var(--blue-navy));
-      color: #ffffff;
-      display: grid;
-      place-items: center;
-      font-size: 19px;
-      box-shadow: 0 10px 24px rgba(17, 133, 224, 0.25);
-    }
-
-    .site-brand-text {
-      font-size: 21px;
-      font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
-    }
-
-    .site-nav {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 7px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    .site-nav-btn {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 9px 13px;
-      border-radius: 11px;
-      background: #eef4ff;
-      transition: 0.18s ease;
-      white-space: nowrap;
+    .brand h1 {
+      color: #38bdf8;
+      font-size: 30px;
+      margin-bottom: 5px;
     }
 
-    .site-nav-btn:hover {
-      background: var(--surface-blue);
-      color: var(--blue-dark);
-      transform: translateY(-1px);
-    }
-
-    .site-nav-btn.active {
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-      color: #ffffff;
-      box-shadow: 0 8px 20px rgba(17, 133, 224, 0.25);
-    }
-
-    /* ADMIN LAYOUT */
-    .admin-page {
-      width: 100%;
-      max-width: 1500px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 250px minmax(0, 1fr);
-      min-height: calc(100vh - 68px);
-      padding: 38px 28px;
-      gap: 0;
-    }
-
-    /* SIDEBAR */
-    .admin-sidebar {
-      background: linear-gradient(180deg, #071a45, #0b2b63);
-      border: 1px solid rgba(147, 197, 253, 0.18);
-      border-radius: 0;
-      padding: 32px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      color: #ffffff;
-      min-height: 610px;
-    }
-
-    .sidebar-label {
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #8bbef2;
-      padding: 14px 12px 7px;
-    }
-
-    .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 12px 13px;
-      border-radius: 12px;
+    .brand p {
+      color: #cbd5e1;
       font-size: 14px;
-      font-weight: 700;
-      color: #dbeafe;
-      cursor: pointer;
-      transition: 0.18s ease;
-      border: 1px solid transparent;
-      background: transparent;
-      width: 100%;
-      text-align: left;
-      font-family: "DM Sans", sans-serif;
     }
 
-    .sidebar-item:hover {
-      background: rgba(17, 133, 224, 0.18);
-      color: #ffffff;
-      border-color: rgba(147, 197, 253, 0.22);
-    }
-
-    .sidebar-item.active {
-      background: rgba(17, 133, 224, 0.32);
-      color: #ffffff;
-      font-weight: 900;
-      border-color: rgba(147, 197, 253, 0.38);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
-    }
-
-    .sidebar-item svg {
-      flex-shrink: 0;
-      opacity: 0.9;
-    }
-
-    /* MAIN */
-    .admin-main {
-      min-width: 0;
-      background:
-        radial-gradient(circle at top right, rgba(17, 133, 224, 0.13), transparent 32%),
-        linear-gradient(135deg, #f7fbff, #eaf4ff);
-      border: 1px solid #d6e5f8;
-      border-left: none;
-      padding: 34px 40px;
-      overflow: hidden;
-    }
-
-    .page-header {
+    nav {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 28px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .page-header h1 {
-      font-size: 34px;
-      font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -0.9px;
-      line-height: 1.1;
+    nav a,
+    nav button {
+      color: white;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
     }
 
-    .page-header p {
+    nav a:hover,
+    nav button:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1250px;
+      margin: 35px auto;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h2 {
+      font-size: 32px;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .page-title p {
+      color: #64748b;
+      font-size: 16px;
+    }
+
+    .message {
+      display: none;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 22px;
+      text-align: center;
+      font-weight: bold;
       font-size: 15px;
-      color: var(--text-muted);
-      margin-top: 8px;
     }
 
-    .date-badge {
-      font-size: 12px;
-      color: var(--blue-dark);
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 9px 16px;
-      font-weight: 900;
-      box-shadow: var(--shadow);
-      white-space: nowrap;
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
     }
 
-    /* STATS */
-    .stats-grid {
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .stats {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 26px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: 0.22s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .stat-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--blue), var(--blue-dark));
-    }
-
-    .stat-card.navy::before {
-      background: linear-gradient(90deg, var(--blue-navy), var(--blue-dark));
-    }
-
-    .stat-card.sky::before {
-      background: linear-gradient(90deg, var(--blue-sky), var(--blue));
-    }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 11px;
-    }
-
-    .stat-value {
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      color: var(--text-primary);
-      line-height: 1;
-      margin-bottom: 9px;
-    }
-
-    .stat-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .stat-badge {
-      font-size: 11px;
-      font-weight: 900;
-      padding: 3px 8px;
-      border-radius: 999px;
-    }
-
-    .badge-up {
-      background: var(--surface-blue);
-      color: var(--blue-dark);
-    }
-
-    .badge-down {
-      background: #eaf1ff;
-      color: #2563eb;
-    }
-
-    /* CARDS */
-    .charts-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-      gap: 16px;
-      margin-bottom: 26px;
-    }
-
-    .bottom-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 16px;
-    }
-
-    .chart-card,
-    .form-card,
-    .list-card {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: white;
       padding: 24px;
-      box-shadow: var(--shadow);
-      min-width: 0;
+      border-radius: 17px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
     }
 
-    .chart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .chart-title {
+    .stat-card h3 {
+      color: #64748b;
       font-size: 15px;
-      font-weight: 900;
-      color: var(--text-primary);
-    }
-
-    .chart-subtitle {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    .chart-legend {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
       margin-bottom: 12px;
     }
 
-    .legend-item {
+    .stat-card p {
+      color: #2563eb;
+      font-size: 34px;
+      font-weight: bold;
+    }
+
+    .admin-section {
+      background: white;
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      margin-bottom: 32px;
+    }
+
+    .section-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      font-weight: 800;
+      margin-bottom: 22px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 3px;
+    .section-header h3 {
+      font-size: 25px;
+      color: #1e293b;
     }
 
-    .section-title {
-      font-size: 17px;
-      font-weight: 900;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .section-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 700;
-      margin-left: 8px;
-    }
-
-    .pill-group {
-      display: flex;
-      gap: 6px;
-    }
-
-    .pill {
-      font-size: 11px;
-      font-weight: 900;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      color: var(--text-secondary);
-      background: #ffffff;
-      font-family: "DM Sans", sans-serif;
-      transition: 0.18s ease;
-    }
-
-    .pill.active,
-    .pill:hover {
-      background: var(--blue);
-      color: #ffffff;
-      border-color: var(--blue);
-    }
-
-    /* MANAGE LISTINGS FINAL */
-    #section-manage {
-      width: 100%;
-      min-width: 0;
-    }
-
-    #section-manage .bottom-row {
-      display: grid !important;
-      grid-template-columns: 410px minmax(0, 1fr) !important;
-      gap: 20px !important;
-      align-items: start !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      overflow: hidden !important;
-    }
-
-    #section-manage .form-card {
-      width: 100% !important;
-      max-width: 410px !important;
-      padding: 24px !important;
-      border-radius: 18px !important;
-    }
-
-    .form-grid {
+    form {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      min-width: 0;
     }
 
-    .form-group.full {
+    .full-width {
       grid-column: 1 / -1;
     }
 
-    .form-group label {
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--text-secondary);
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      font-family: "DM Sans", sans-serif;
+    label {
       font-size: 14px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      color: var(--text-primary);
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
       outline: none;
-      transition: 0.18s ease;
+      font-size: 14px;
+      background: white;
     }
 
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(17, 133, 224, 0.12);
+    textarea {
+      min-height: 105px;
+      resize: vertical;
     }
 
-    .form-group input::placeholder {
-      color: var(--text-muted);
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.13);
     }
 
-    .primary-btn,
-    #save-apartment-btn,
-    #apartment-form button[type="submit"] {
-      width: fit-content !important;
-      min-width: 190px !important;
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark)) !important;
-      color: #ffffff !important;
-      border: none !important;
-      border-radius: 14px !important;
-      padding: 14px 22px !important;
-      font-size: 15px !important;
-      font-weight: 900 !important;
-      cursor: pointer !important;
-      margin-top: 18px !important;
-      box-shadow: 0 14px 30px rgba(17, 133, 224, 0.25) !important;
-      transition: 0.18s ease !important;
+    .btn {
+      border: none;
+      padding: 12px 17px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: 0.2s;
     }
 
-    .primary-btn:hover,
-    #save-apartment-btn:hover,
-    #apartment-form button[type="submit"]:hover {
-      background: linear-gradient(135deg, var(--blue-sky), var(--blue)) !important;
-      transform: translateY(-2px) !important;
+    .btn-primary {
+      background: #2563eb;
+      color: white;
     }
 
-    #section-manage .bottom-row > div:last-child {
-      min-width: 0 !important;
-      width: 100% !important;
-      overflow: hidden !important;
+    .btn-primary:hover {
+      background: #1d4ed8;
     }
 
-    #section-manage .list-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      max-height: 520px !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-      padding: 18px !important;
-      border-radius: 18px !important;
+    .btn-secondary {
+      background: #64748b;
+      color: white;
     }
 
-    #admin-apartments-list {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 16px !important;
-      align-items: stretch !important;
-      overflow-x: hidden !important;
+    .btn-secondary:hover {
+      background: #475569;
     }
 
-    #admin-apartments-list .admin-item {
-      width: 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      background: #ffffff !important;
-      border: 1px solid var(--border) !important;
-      border-top: 5px solid var(--blue) !important;
-      border-radius: 18px !important;
-      padding: 22px !important;
-      box-shadow: 0 10px 26px rgba(15, 45, 80, 0.08) !important;
-      overflow: hidden !important;
-      transition: 0.18s ease !important;
+    .btn-edit {
+      background: #f59e0b;
+      color: white;
+      padding: 9px 13px;
     }
 
-    #admin-apartments-list .admin-item::before {
-      display: none !important;
+    .btn-edit:hover {
+      background: #d97706;
     }
 
-    #admin-apartments-list .admin-item:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: var(--shadow-md) !important;
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      padding: 9px 13px;
     }
 
-    #admin-apartments-list .admin-item h3 {
-      font-size: 21px !important;
-      line-height: 1.2 !important;
-      color: var(--text-primary) !important;
-      margin-bottom: 14px !important;
-      word-break: break-word !important;
+    .btn-delete:hover {
+      background: #dc2626;
     }
 
-    #admin-apartments-list .admin-item p {
-      color: var(--text-secondary) !important;
-      font-size: 15px !important;
-      line-height: 1.45 !important;
-      margin-bottom: 8px !important;
-      word-break: break-word !important;
+    .table-wrapper {
+      overflow-x: auto;
     }
 
-    #admin-apartments-list .admin-item strong {
-      color: var(--text-primary) !important;
-      font-weight: 900 !important;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
     }
 
-    #admin-apartments-list .admin-item-actions {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 12px !important;
-      margin-top: 18px !important;
+    th,
+    td {
+      padding: 14px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
     }
 
-    #admin-apartments-list .admin-item-actions button {
-      width: 100% !important;
-      min-width: 0 !important;
-      border: none !important;
-      border-radius: 12px !important;
-      padding: 12px 14px !important;
-      font-size: 15px !important;
-      font-weight: 900 !important;
-      cursor: pointer !important;
-      transition: 0.18s ease !important;
+    th {
+      background: #f8fafc;
+      color: #334155;
+      font-weight: bold;
     }
 
-    #admin-apartments-list .edit-btn {
-      background: var(--surface-blue) !important;
-      color: var(--blue) !important;
+    tr:hover {
+      background: #f8fafc;
     }
 
-    #admin-apartments-list .delete-btn {
-      background: var(--danger-light) !important;
-      color: var(--danger) !important;
-    }
-
-    #admin-apartments-list .edit-btn:hover {
-      background: var(--blue) !important;
-      color: #ffffff !important;
-    }
-
-    #admin-apartments-list .delete-btn:hover {
-      background: var(--danger) !important;
-      color: #ffffff !important;
-    }
-
-    /* ACTIVITY */
-    .activity-item {
+    .actions {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .activity-item:last-child {
-      border-bottom: none;
+    .empty-row {
+      text-align: center;
+      color: #64748b;
+      font-weight: bold;
+      padding: 25px;
     }
 
-    .activity-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-top: 6px;
-      flex-shrink: 0;
+    footer {
+      text-align: center;
+      padding: 22px;
+      color: #64748b;
+      font-size: 14px;
     }
 
-    .dot-blue {
-      background: var(--blue);
+    .custom-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 20px;
     }
 
-    .dot-navy {
-      background: var(--blue-navy);
+    .custom-modal.active {
+      display: flex;
     }
 
-    .dot-sky {
-      background: var(--blue-sky);
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      text-align: center;
     }
 
-    .activity-text {
-      font-size: 13px;
-      color: var(--text-secondary);
+    .modal-box h3 {
+      color: #1e293b;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .modal-box p {
+      color: #64748b;
+      font-size: 15px;
       line-height: 1.5;
+      margin-bottom: 24px;
     }
 
-    .activity-text strong {
-      color: var(--text-primary);
-      font-weight: 900;
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .activity-time {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
+    .modal-cancel {
+      background: #64748b;
+      color: white;
     }
 
-    .list-card::-webkit-scrollbar {
-      width: 5px;
+    .modal-cancel:hover {
+      background: #475569;
     }
 
-    .list-card::-webkit-scrollbar-track {
-      background: transparent;
+    .modal-confirm {
+      background: #ef4444;
+      color: white;
     }
 
-    .list-card::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 5px;
+    .modal-confirm:hover {
+      background: #dc2626;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 1300px) {
-      .admin-page {
-        max-width: 1200px;
-      }
-
-      #section-manage .bottom-row {
-        grid-template-columns: 370px minmax(0, 1fr) !important;
-      }
-
-      #admin-apartments-list {
-        grid-template-columns: 1fr !important;
+    @media (max-width: 1000px) {
+      form {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 1100px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 650px) {
+      header {
+        padding: 18px 22px;
       }
 
-      .charts-row,
-      .bottom-row,
-      #section-manage .bottom-row {
-        grid-template-columns: 1fr !important;
+      .container {
+        width: 94%;
       }
 
-      #section-manage .form-card {
-        max-width: 100% !important;
-      }
-
-      #admin-apartments-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .site-header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 14px 1rem;
-      }
-
-      .site-brand {
-        justify-content: center;
-      }
-
-      .site-nav {
-        justify-content: center;
-      }
-
-      .admin-page {
-        grid-template-columns: 1fr;
-        padding: 20px 14px;
-      }
-
-      .admin-sidebar {
-        min-height: unset;
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 14px;
-      }
-
-      .sidebar-label {
-        display: none;
-      }
-
-      .sidebar-item {
-        white-space: nowrap;
-        min-width: max-content;
-      }
-
-      .admin-main {
-        border-left: 1px solid #d6e5f8;
-        padding: 24px 18px;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .stats-grid,
-      #admin-apartments-list {
-        grid-template-columns: 1fr !important;
-      }
-
-      .form-grid {
+      form {
         grid-template-columns: 1fr;
       }
 
-      .page-header,
-      .chart-header {
-        flex-direction: column;
-        align-items: flex-start;
+      .page-title h2 {
+        font-size: 26px;
       }
 
-      #save-apartment-btn,
-      #apartment-form button[type="submit"] {
-        width: 100% !important;
+      nav {
+        width: 100%;
       }
 
-      #admin-apartments-list .admin-item-actions {
-        grid-template-columns: 1fr !important;
+      nav a,
+      nav button {
+        flex: 1;
+        text-align: center;
       }
     }
   </style>
 </head>
 
 <body>
-  <script>
-    if (localStorage.getItem("smartapart_admin_logged_in") !== "true") {
+  <header>
+    <div class="brand">
+      <h1>SmartApart</h1>
+      <p>Admin Dashboard</p>
+    </div>
 
-      window.location.href = "/admin-login";
-    }
-  </script>
-
-  <div id="top-message-box" class="top-message-box"></div>
-
-  <header class="site-header">
-    <a href="index.html" class="site-brand">
-      <div class="site-brand-box">🏢</div>
-      <span class="site-brand-text">SmartApart Admin</span>
-    </a>
-
-    <nav class="site-nav">
-  <a href="/" class="site-nav-btn">Home</a>
-  <a href="/apartments" class="site-nav-btn">Apartments</a>
-  <a href="/map" class="site-nav-btn">Map</a>
-  <a href="/agents" class="site-nav-btn">Agents</a>
-  <a href="/pricing" class="site-nav-btn">Pricing</a>
-  <a href="/blog" class="site-nav-btn">Blog</a>
-  <a href="/about" class="site-nav-btn">About</a>
-  <a href="/bookings" class="site-nav-btn">Bookings</a>
-  <a href="/inquiries" class="site-nav-btn">Inquiries</a>
-  <a href="/admin" class="site-nav-btn active">Admin</a>
-</nav>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="apartments.html">Apartments</a>
+      <button id="logoutBtn">Logout</button>
+    </nav>
   </header>
 
-  <div class="admin-page">
-    <aside class="admin-sidebar">
-      <div class="sidebar-label">Overview</div>
+  <main class="container">
+    <div class="page-title">
+      <h2>Dashboard</h2>
+      <p>Menaxho apartamentet, shto të reja, edito ose fshij të dhënat.</p>
+    </div>
 
-      <button class="sidebar-item active" onclick="showSection('dashboard', event)">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-          <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-        </svg>
-        Dashboard
-      </button>
+    <div id="adminMessage" class="message"></div>
 
-      <button class="sidebar-item" onclick="showSection('manage', event)">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path d="M3 12h18M3 6h18M3 18h18"></path>
-        </svg>
-        Manage Listings
-      </button>
-
-      <div class="sidebar-label" style="margin-top: 8px;">Analytics</div>
-
-      <button class="sidebar-item" onclick="showSection('revenue', event)">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        Revenue
-      </button>
-
-      <button class="sidebar-item" onclick="showSection('occupancy', event)">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l6 3.46a2 2 0 0 0 2 0l6-3.46A2 2 0 0 0 21 16z"></path>
-        </svg>
-        Occupancy
-      </button>
-
-      <div class="sidebar-label" style="margin-top: 8px;">System</div>
-
-      <button class="sidebar-item" onclick="handleLogout()">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path>
-        </svg>
-        Logout
-      </button>
-    </aside>
-
-    <main class="admin-main">
-      <div id="section-dashboard">
-        <div class="page-header">
-          <div>
-            <h1>Dashboard</h1>
-            <p>Welcome back — here is what is happening today.</p>
-          </div>
-          <div class="date-badge" id="today-date"></div>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Total Apartments</div>
-            <div class="stat-value" id="total-apartments">0</div>
-            <div class="stat-meta">
-              <span class="stat-badge badge-up">+3</span>
-              <span>this month</span>
-            </div>
-          </div>
-
-          <div class="stat-card navy">
-            <div class="stat-label">Active Bookings</div>
-            <div class="stat-value">24</div>
-            <div class="stat-meta">
-              <span class="stat-badge badge-up">+8%</span>
-              <span>vs last month</span>
-            </div>
-          </div>
-
-          <div class="stat-card sky">
-            <div class="stat-label">Monthly Revenue</div>
-            <div class="stat-value">€ 18.4k</div>
-            <div class="stat-meta">
-              <span class="stat-badge badge-up">+12%</span>
-              <span>vs last month</span>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Occupancy Rate</div>
-            <div class="stat-value">76%</div>
-            <div class="stat-meta">
-              <span class="stat-badge badge-down">−2%</span>
-              <span>vs last month</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="charts-row">
-          <div class="chart-card">
-            <div class="chart-header">
-              <div>
-                <div class="chart-title">Revenue Overview</div>
-                <div class="chart-subtitle">Monthly earnings — last 12 months</div>
-              </div>
-
-              <div class="pill-group">
-                <button class="pill active" onclick="setPeriod(this)">Monthly</button>
-                <button class="pill" onclick="setPeriod(this)">Quarterly</button>
-              </div>
-            </div>
-
-            <div class="chart-legend">
-              <span class="legend-item"><span class="legend-dot" style="background:#1185e0;"></span>Revenue</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#0f4c81;"></span>Expenses</span>
-            </div>
-
-            <div style="position:relative; width:100%; height:220px;">
-              <canvas id="revenueChart"></canvas>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <div class="chart-header">
-              <div>
-                <div class="chart-title">Apartments by City</div>
-                <div class="chart-subtitle">Distribution of listings</div>
-              </div>
-            </div>
-
-            <div style="position:relative; width:100%; height:200px;">
-              <canvas id="cityChart"></canvas>
-            </div>
-
-            <div class="chart-legend" style="margin-top:12px; justify-content:center; flex-wrap:wrap; gap:10px;">
-              <span class="legend-item"><span class="legend-dot" style="background:#1185e0;"></span>Prishtinë 38%</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#0f4c81;"></span>Prizren 24%</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span>Pejë 18%</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#0f1f5c;"></span>Gjilan 12%</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#7b8da8;"></span>Tjera 8%</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="bottom-row">
-          <div class="chart-card">
-            <div class="chart-header">
-              <div>
-                <div class="chart-title">Bookings per Week</div>
-                <div class="chart-subtitle">Current month activity</div>
-              </div>
-            </div>
-
-            <div style="position:relative; width:100%; height:180px;">
-              <canvas id="bookingsChart"></canvas>
-            </div>
-          </div>
-
-          <div class="form-card">
-            <div class="section-title">Recent Activity</div>
-
-            <div class="activity-item">
-              <div class="activity-dot dot-blue"></div>
-              <div>
-                <div class="activity-text"><strong>Apartment #12</strong> booked for 3 nights</div>
-                <div class="activity-time">2 minutes ago</div>
-              </div>
-            </div>
-
-            <div class="activity-item">
-              <div class="activity-dot dot-navy"></div>
-              <div>
-                <div class="activity-text">New inquiry from <strong>Alban K.</strong></div>
-                <div class="activity-time">18 minutes ago</div>
-              </div>
-            </div>
-
-            <div class="activity-item">
-              <div class="activity-dot dot-sky"></div>
-              <div>
-                <div class="activity-text"><strong>Villa Panorama</strong> listing updated</div>
-                <div class="activity-time">1 hour ago</div>
-              </div>
-            </div>
-
-            <div class="activity-item">
-              <div class="activity-dot dot-blue"></div>
-              <div>
-                <div class="activity-text">Payment received — <strong>€ 480</strong></div>
-                <div class="activity-time">3 hours ago</div>
-              </div>
-            </div>
-
-            <div class="activity-item">
-              <div class="activity-dot dot-navy"></div>
-              <div>
-                <div class="activity-text"><strong>Apartment #7</strong> checkout completed</div>
-                <div class="activity-time">Yesterday, 14:30</div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section class="stats">
+      <div class="stat-card">
+        <h3>Total Apartments</h3>
+        <p id="totalApartments">0</p>
       </div>
 
-      <div id="section-manage" style="display:none;">
-        <div class="page-header">
-          <div>
-            <h1>Manage Listings</h1>
-            <p>Add, edit, or remove apartment listings.</p>
-          </div>
-        </div>
-
-        <div class="bottom-row">
-          <div class="form-card">
-            <div class="section-title">
-              <span id="form-section-title">Add New Apartment</span>
-            </div>
-
-        
-              <form id="apartment-form" action="javascript:void(0);" autocomplete="off"></form>
-              <input type="hidden" id="apartment-id" />
-
-              <div class="form-grid">
-                <div class="form-group full">
-                  <label for="title">Apartment Title</label>
-                  <input type="text" id="title" name="title" placeholder="e.g. Cozy Studio in Center" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="city">City</label>
-                  <input type="text" id="city" name="city" placeholder="Prishtinë" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="price">Price (€ / night)</label>
-                  <input type="number" id="price" name="price" placeholder="80" required />
-                </div>
-
-                <div class="form-group full">
-                  <label for="address">Address</label>
-                  <input type="text" id="address" name="address" placeholder="Rr. Bill Clinton, Nr. 12" required />
-                </div>
-              </div>
-
-              <button type="submit" id="save-apartment-btn" class="primary-btn">
-                + Add Apartment
-              </button>
-            </form>
-          </div>
-
-          <div>
-            <div class="section-title">
-              Apartment List <span class="section-sub" id="apt-count-label"></span>
-            </div>
-
-            <div class="list-card" id="admin-apartments-list">
-              <p style="font-size:13px; color:var(--text-muted);">No apartments loaded yet.</p>
-            </div>
-          </div>
-        </div>
+      <div class="stat-card">
+        <h3>Available</h3>
+        <p id="availableApartments">0</p>
       </div>
 
-      <div id="section-revenue" style="display:none;">
-        <div class="page-header">
-          <div>
-            <h1>Revenue Analytics</h1>
-            <p>Detailed financial breakdown.</p>
-          </div>
-        </div>
+      <div class="stat-card">
+        <h3>Rented</h3>
+        <p id="rentedApartments">0</p>
+      </div>
+    </section>
 
-        <div class="chart-card">
-          <div class="chart-title" style="margin-bottom:1rem;">Annual Revenue Trend</div>
-          <div style="position:relative; width:100%; height:300px;">
-            <canvas id="annualChart"></canvas>
-          </div>
-        </div>
+    <section class="admin-section">
+      <div class="section-header">
+        <h3 id="formTitle">Add Apartment</h3>
+        <button type="button" class="btn btn-secondary" id="clearFormBtn">Clear Form</button>
       </div>
 
-      <div id="section-occupancy" style="display:none;">
-        <div class="page-header">
-          <div>
-            <h1>Occupancy</h1>
-            <p>Track apartment occupancy rates.</p>
-          </div>
+      <form id="apartmentForm">
+        <input type="hidden" id="apartmentId" />
+
+        <div class="form-group">
+          <label for="title">Titulli</label>
+          <input type="text" id="title" placeholder="P.sh. Banesë moderne në qendër" required />
         </div>
 
-        <div class="chart-card">
-          <div class="chart-title" style="margin-bottom:1rem;">Occupancy Rate by Month</div>
-          <div style="position:relative; width:100%; height:300px;">
-            <canvas id="occupancyChart"></canvas>
-          </div>
+        <div class="form-group">
+          <label for="location">Lokacioni</label>
+          <input type="text" id="location" placeholder="P.sh. Mitrovicë" required />
         </div>
+
+        <div class="form-group">
+          <label for="price">Çmimi (€)</label>
+          <input type="number" id="price" placeholder="P.sh. 250" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="rooms">Dhoma</label>
+          <input type="number" id="rooms" placeholder="P.sh. 3" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="status">Statusi</label>
+          <select id="status" required>
+            <option value="Available">Available</option>
+            <option value="Rented">Rented</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Image URL</label>
+          <input type="text" id="image" placeholder="P.sh. images/apartment1.jpg" />
+        </div>
+
+        <div class="form-group full-width">
+          <label for="description">Përshkrimi</label>
+          <textarea id="description" placeholder="Shkruaj përshkrimin e apartamentit..." required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Add Apartment</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-section">
+      <div class="section-header">
+        <h3>Apartment List</h3>
       </div>
-    </main>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Titulli</th>
+              <th>Lokacioni</th>
+              <th>Çmimi</th>
+              <th>Dhoma</th>
+              <th>Statusi</th>
+              <th>Veprime</th>
+            </tr>
+          </thead>
+
+          <tbody id="apartmentsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    SmartApart Admin Panel © 2026
+  </footer>
+
+  <div id="deleteModal" class="custom-modal">
+    <div class="modal-box">
+      <h3>Fshirja e apartamentit</h3>
+      <p>A jeni e sigurt që dëshironi ta fshini këtë apartament?</p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn modal-cancel" id="cancelDeleteBtn">Anulo</button>
+        <button type="button" class="btn modal-confirm" id="confirmDeleteBtn">Po, fshije</button>
+      </div>
+    </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <script src="./js/admin.js"></script>
-
   <script>
-    document.getElementById("today-date").textContent = new Date().toLocaleDateString("en-GB", {
-      weekday: "short",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+    const isLoggedIn = localStorage.getItem("smartapart_admin_logged_in");
 
-    const sections = ["dashboard", "manage", "revenue", "occupancy"];
-
-    function showSection(name, event) {
-      sections.forEach(function (section) {
-        document.getElementById("section-" + section).style.display = section === name ? "" : "none";
-      });
-
-      document.querySelectorAll(".sidebar-item").forEach(function (button) {
-        button.classList.remove("active");
-      });
-
-      if (event && event.currentTarget) {
-        event.currentTarget.classList.add("active");
-      }
-
-      if (name === "revenue") initAnnualChart();
-      if (name === "occupancy") initOccupancyChart();
+    if (isLoggedIn !== "true") {
+      window.location.href = "admin-login.html";
     }
 
-    function handleLogout() {
+    const apartmentForm = document.getElementById("apartmentForm");
+    const apartmentId = document.getElementById("apartmentId");
+    const title = document.getElementById("title");
+    const locationInput = document.getElementById("location");
+    const price = document.getElementById("price");
+    const rooms = document.getElementById("rooms");
+    const statusInput = document.getElementById("status");
+    const image = document.getElementById("image");
+    const description = document.getElementById("description");
+
+    const adminMessage = document.getElementById("adminMessage");
+    const apartmentsTableBody = document.getElementById("apartmentsTableBody");
+    const submitBtn = document.getElementById("submitBtn");
+    const formTitle = document.getElementById("formTitle");
+    const clearFormBtn = document.getElementById("clearFormBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const totalApartments = document.getElementById("totalApartments");
+    const availableApartments = document.getElementById("availableApartments");
+    const rentedApartments = document.getElementById("rentedApartments");
+
+    const deleteModal = document.getElementById("deleteModal");
+    const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+    let apartmentToDeleteId = null;
+
+   
+        let apartments = JSON.parse(localStorage.getItem("smartapart_apartments"));
+
+if (!apartments) {
+  apartments = [
+    {
+      id: 1,
+      title: "Modern Apartment",
+      location: "Mitrovicë",
+      price: 250,
+      rooms: 3,
+      status: "Available",
+      image: "images/apartment1.jpg",
+      description: "Apartament modern dhe i përshtatshëm për banim."
+    },
+    {
+      id: 2,
+      title: "Cozy Studio",
+      location: "Prishtinë",
+      price: 180,
+      rooms: 1,
+      status: "Rented",
+      image: "images/apartment2.jpg",
+      description: "Studio komode dhe afër qendrës."
+    }
+  ];
+
+  localStorage.setItem("smartapart_apartments", JSON.stringify(apartments));
+}
+
+function saveApartments() {
+  localStorage.setItem("smartapart_apartments", JSON.stringify(apartments));
+}
+          id: 2
+          title: "Cozy Studio"
+          location: "Prishtinë"
+          price: 180,
+          
+
+    function showMessage(message, type) {
+      adminMessage.textContent = message;
+      adminMessage.className = "message " + type; 
+
+      setTimeout(function () {
+        adminMessage.textContent = "";
+        adminMessage.className = "message";
+      }, 3000);
+    }
+
+    function updateStats() {
+      totalApartments.textContent = apartments.length;
+
+      availableApartments.textContent = apartments.filter(function (apartment) {
+        return apartment.status === "Available";
+      }).length;
+
+      rentedApartments.textContent = apartments.filter(function (apartment) {
+        return apartment.status === "Rented";
+      }).length;
+    }
+
+    function renderApartments() {
+      apartmentsTableBody.innerHTML = "";
+
+      if (apartments.length === 0) {
+        apartmentsTableBody.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-row">Nuk ka apartamente të regjistruara.</td>
+          </tr>
+        `;
+
+        updateStats();
+        return;
+      }
+
+      apartments.forEach(function (apartment) {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${apartment.id}</td>
+          <td>${apartment.title}</td>
+          <td>${apartment.location}</td>
+          <td>${apartment.price} €</td>
+          <td>${apartment.rooms}</td>
+          <td>${apartment.status}</td>
+          <td>
+            <div class="actions">
+              <button type="button" class="btn btn-edit" onclick="editApartment(${apartment.id})">Edit</button>
+              <button type="button" class="btn btn-delete" onclick="deleteApartment(${apartment.id})">Delete</button>
+            </div>
+          </td>
+        `;
+
+        apartmentsTableBody.appendChild(row);
+      });
+
+      updateStats();
+    }
+
+    function clearForm() {
+      apartmentId.value = "";
+      apartmentForm.reset();
+      formTitle.textContent = "Add Apartment";
+      submitBtn.textContent = "Add Apartment";
+    }
+
+    apartmentForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const apartmentData = {
+        title: title.value.trim(),
+        location: locationInput.value.trim(),
+        price: Number(price.value),
+        rooms: Number(rooms.value),
+        status: statusInput.value,
+        image: image.value.trim(),
+        description: description.value.trim()
+      };
+
+      if (
+        apartmentData.title === "" ||
+        apartmentData.location === "" ||
+        apartmentData.price <= 0 ||
+        apartmentData.rooms <= 0 ||
+        apartmentData.description === ""
+      ) {
+        showMessage("Ju lutem plotësoni të gjitha fushat saktë!", "error");
+        return;
+      }
+
+      if (apartmentId.value !== "") {
+        const id = Number(apartmentId.value);
+
+        apartments = apartments.map(function (apartment) {
+          if (apartment.id === id) {
+            return {
+              id: id,
+              title: apartmentData.title,
+              location: apartmentData.location,
+              price: apartmentData.price,
+              rooms: apartmentData.rooms,
+              status: apartmentData.status,
+              image: apartmentData.image,
+              description: apartmentData.description
+            };
+          }
+
+          return apartment;
+        });
+
+        saveApartments();
+        renderApartments();
+        clearForm();
+        showMessage("Apartment updated successfully!", "success");
+      } else {
+        const newApartment = {
+          id: Date.now(),
+          title: apartmentData.title,
+          location: apartmentData.location,
+          price: apartmentData.price,
+          rooms: apartmentData.rooms,
+          status: apartmentData.status,
+          image: apartmentData.image,
+          description: apartmentData.description
+        };
+
+        apartments.push(newApartment);
+        saveApartments();
+        renderApartments();
+        clearForm();
+        showMessage("Apartment added successfully!", "success");
+      }
+    });
+
+    function editApartment(id) {
+      const apartment = apartments.find(function (item) {
+        return item.id === id;
+      });
+
+      if (!apartment) {
+        showMessage("Apartment not found!", "error");
+        return;
+      }
+
+      apartmentId.value = apartment.id;
+      title.value = apartment.title;
+      locationInput.value = apartment.location;
+      price.value = apartment.price;
+      rooms.value = apartment.rooms;
+      statusInput.value = apartment.status;
+      image.value = apartment.image;
+      description.value = apartment.description;
+
+      formTitle.textContent = "Edit Apartment";
+      submitBtn.textContent = "Update Apartment";
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      showMessage("Apartment selected for editing.", "success");
+    }
+
+    function deleteApartment(id) {
+      apartmentToDeleteId = id;
+      deleteModal.classList.add("active");
+    }
+
+    cancelDeleteBtn.addEventListener("click", function () {
+      apartmentToDeleteId = null;
+      deleteModal.classList.remove("active");
+    });
+
+    confirmDeleteBtn.addEventListener("click", function () {
+      if (apartmentToDeleteId === null) {
+        return;
+      }
+
+      apartments = apartments.filter(function (apartment) {
+        return apartment.id !== apartmentToDeleteId;
+      });
+
+      saveApartments();
+      renderApartments();
+      clearForm();
+      showMessage("Apartment deleted successfully!", "success");
+
+      apartmentToDeleteId = null;
+      deleteModal.classList.remove("active");
+    });
+
+    deleteModal.addEventListener("click", function (event) {
+      if (event.target === deleteModal) {
+        apartmentToDeleteId = null;
+        deleteModal.classList.remove("active");
+      }
+    });
+
+    clearFormBtn.addEventListener("click", function () {
+      clearForm();
+      showMessage("Form cleared successfully.", "success");
+    });
+
+    logoutBtn.addEventListener("click", function () {
       localStorage.removeItem("smartapart_admin_logged_in");
-      localStorage.removeItem("smartapart_admin_email");
-  
-      window.location.href = "/admin-login";
-    }
-
-    function setPeriod(button) {
-      button.closest(".pill-group").querySelectorAll(".pill").forEach(function (pill) {
-        pill.classList.remove("active");
-      });
-
-      button.classList.add("active");
-    }
-
-    Chart.defaults.font.family = "'DM Sans', sans-serif";
-    Chart.defaults.font.size = 12;
-    Chart.defaults.color = "#7b8da8";
-
-    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    new Chart(document.getElementById("revenueChart"), {
-      type: "line",
-      data: {
-        labels: MONTHS,
-        datasets: [
-          {
-            label: "Revenue",
-            data: [11200, 9800, 13400, 12700, 15800, 17200, 18900, 16400, 14200, 15600, 17800, 18400],
-            borderColor: "#1185e0",
-            backgroundColor: "rgba(17,133,224,0.08)",
-            borderWidth: 2,
-            tension: 0.4,
-            fill: true,
-            pointRadius: 3,
-            pointBackgroundColor: "#1185e0"
-          },
-          {
-            label: "Expenses",
-            data: [6200, 5900, 7100, 6800, 8200, 8900, 9400, 8100, 7200, 7800, 8600, 9100],
-            borderColor: "#0f4c81",
-            backgroundColor: "rgba(15,76,129,0.06)",
-            borderWidth: 2,
-            tension: 0.4,
-            fill: true,
-            pointRadius: 3,
-            pointBackgroundColor: "#0f4c81",
-            borderDash: [5, 3]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: { mode: "index", intersect: false }
-        },
-        scales: {
-          y: {
-            beginAtZero: false,
-            grid: { color: "rgba(15,45,80,0.06)" },
-            ticks: {
-              callback: function (value) {
-                return "€" + (value / 1000).toFixed(0) + "k";
-              }
-            }
-          },
-          x: {
-            grid: { display: false }
-          }
-        }
-      }
+      window.location.href = "admin-login.html";
     });
 
-    new Chart(document.getElementById("cityChart"), {
-      type: "doughnut",
-      data: {
-        labels: ["Prishtinë", "Prizren", "Pejë", "Gjilan", "Tjera"],
-        datasets: [
-          {
-            data: [38, 24, 18, 12, 8],
-            backgroundColor: ["#1185e0", "#0f4c81", "#2563eb", "#0f1f5c", "#7b8da8"],
-            borderWidth: 0,
-            hoverOffset: 6
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: "68%",
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                return context.label + ": " + context.raw + "%";
-              }
-            }
-          }
-        }
-      }
-    });
-
-    new Chart(document.getElementById("bookingsChart"), {
-      type: "bar",
-      data: {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        datasets: [
-          {
-            label: "Bookings",
-            data: [14, 19, 11, 24],
-            backgroundColor: "#1185e0",
-            borderRadius: 8,
-            borderSkipped: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: {
-            grid: { color: "rgba(15,45,80,0.06)" },
-            beginAtZero: true,
-            ticks: { stepSize: 5 }
-          },
-          x: {
-            grid: { display: false }
-          }
-        }
-      }
-    });
-
-    let annualInited = false;
-
-    function initAnnualChart() {
-      if (annualInited) return;
-      annualInited = true;
-
-      new Chart(document.getElementById("annualChart"), {
-        type: "bar",
-        data: {
-          labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
-          datasets: [
-            {
-              label: "Revenue (€)",
-              data: [95000, 112000, 138000, 167000, 198000, 218000],
-              backgroundColor: "#1185e0",
-              borderRadius: 8,
-              borderSkipped: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function (value) {
-                  return "€" + value / 1000 + "k";
-                }
-              },
-              grid: { color: "rgba(15,45,80,0.06)" }
-            },
-            x: {
-              grid: { display: false }
-            }
-          }
-        }
-      });
-    }
-
-    let occupancyInited = false;
-
-    function initOccupancyChart() {
-      if (occupancyInited) return;
-      occupancyInited = true;
-
-      new Chart(document.getElementById("occupancyChart"), {
-        type: "line",
-        data: {
-          labels: MONTHS,
-          datasets: [
-            {
-              label: "Occupancy %",
-              data: [62, 58, 67, 72, 79, 84, 91, 88, 76, 73, 69, 74],
-              borderColor: "#2563eb",
-              backgroundColor: "rgba(37,99,235,0.08)",
-              borderWidth: 2,
-              tension: 0.4,
-              fill: true,
-              pointRadius: 4,
-              pointBackgroundColor: "#2563eb"
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              min: 40,
-              max: 100,
-              ticks: {
-                callback: function (value) {
-                  return value + "%";
-                }
-              },
-              grid: { color: "rgba(15,45,80,0.06)" }
-            },
-            x: {
-              grid: { display: false }
-            }
-          }
-        }
-      });
-    }
+    renderApartments();
   </script>
-  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButtons = document.querySelectorAll(
+      ".menu-btn, .hamburger, .hamburger-btn, .mobile-menu-btn, #menuBtn, #hamburgerBtn"
+    );
+
+    const menus = document.querySelectorAll(
+      ".mobile-menu, .nav-menu, .nav-links, .sidebar-menu, #mobileMenu, #navMenu"
+    );
+
+    const menuLinks = document.querySelectorAll(
+      ".mobile-menu a, .nav-menu a, .nav-links a, .sidebar-menu a, #mobileMenu a, #navMenu a"
+    );
+
+    function openMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.add("active");
+        menu.classList.add("open");
+        menu.classList.add("show");
+      });
+
+      document.body.classList.add("menu-open");
+    }
+
+    function closeMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.remove("active");
+        menu.classList.remove("open");
+        menu.classList.remove("show");
+      });
+
+      document.body.classList.remove("menu-open");
+    }
+
+    menuButtons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        let isOpen = false;
+
+        menus.forEach(function (menu) {
+          if (
+            menu.classList.contains("active") ||
+            menu.classList.contains("open") ||
+            menu.classList.contains("show")
+          ) {
+            isOpen = true;
+          }
+        });
+
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+    });
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener("click", function () {
+        closeMenu();
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      let clickedInsideMenu = false;
+      let clickedMenuButton = false;
+
+      menus.forEach(function (menu) {
+        if (menu.contains(event.target)) {
+          clickedInsideMenu = true;
+        }
+      });
+
+      menuButtons.forEach(function (button) {
+        if (button.contains(event.target)) {
+          clickedMenuButton = true;
+        }
+      });
+
+      if (!clickedInsideMenu && !clickedMenuButton) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  });
+</script>
 </body>
 </html>

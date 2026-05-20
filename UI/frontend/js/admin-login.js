@@ -1,17 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("admin-login-form");
-  const emailInput = document.getElementById("admin-email");
-  const passwordInput = document.getElementById("admin-password");
-  const messageBox = document.getElementById("admin-login-message");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
 
-  const ADMIN_EMAIL = "tringa.hyseni@umib.net";
-  const ADMIN_PASSWORD = "12345678";
+  function showLoginMessage(message, type = "error") {
+    let box = document.getElementById("login-message");
 
-  function showMessage(message, type = "error") {
-    if (!messageBox) return;
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "login-message";
+      box.style.marginTop = "14px";
+      box.style.fontWeight = "700";
+      loginForm.appendChild(box);
+    }
 
-    messageBox.textContent = message;
-    messageBox.className = `admin-login-message ${type}`;
+    box.textContent = message;
+    box.style.color = type === "success" ? "#0f7a35" : "#dc2626";
   }
 
   if (!loginForm) return;
@@ -19,20 +23,22 @@ document.addEventListener("DOMContentLoaded", () => {
   loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+    const email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value.trim() : "";
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    if (email === "tringa.hyseni@umib.net" && password === "12345678") {
       localStorage.setItem("smartapart_admin_logged_in", "true");
-      showMessage("Login successful. Redirecting to admin panel...", "success");
+      localStorage.setItem("smartapart_admin_email", email);
+
+      showLoginMessage("Login successful. Redirecting to dashboard...", "success");
 
       setTimeout(() => {
         window.location.href = "admin.html";
-      }, 700);
+      }, 500);
 
       return;
     }
 
-    showMessage("Invalid email or password. Please try again.", "error");
+    showLoginMessage("Invalid email or password. Please try again.", "error");
   });
 });

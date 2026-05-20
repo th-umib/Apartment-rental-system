@@ -1,5 +1,5 @@
 if (localStorage.getItem("smartapart_admin_logged_in") !== "true") {
-  window.location.href = "/admin-login";
+  window.location.href = "admin-login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,6 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function getPrice(apartment) {
+    return (
+      apartment.price_per_month ??
+      apartment.price ??
+      apartment.price_per_night ??
+      "0.00"
+    );
+  }
+
   function renderApartments(apartments) {
     if (!apartmentsList) return;
 
@@ -76,18 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     apartmentsList.innerHTML = apartments
       .map((apartment) => {
-        const price =
-          apartment.price_per_month ??
-          apartment.price ??
-          apartment.price_per_night ??
-          "0.00";
-
         return `
           <div class="admin-item">
             <h3>${apartment.title || "Untitled Apartment"}</h3>
             <p><strong>City:</strong> ${apartment.city || "Not specified"}</p>
             <p><strong>Address:</strong> ${apartment.address || "Not specified"}</p>
-            <p><strong>Price:</strong> €${price}</p>
+            <p><strong>Price:</strong> €${getPrice(apartment)}</p>
 
             <div class="admin-item-actions">
               <button type="button" class="edit-btn" data-id="${apartment.id}">
@@ -117,13 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (titleInput) titleInput.value = apartment.title || "";
         if (cityInput) cityInput.value = apartment.city || "";
         if (addressInput) addressInput.value = apartment.address || "";
-        if (priceInput) {
-          priceInput.value =
-            apartment.price_per_month ||
-            apartment.price ||
-            apartment.price_per_night ||
-            "";
-        }
+        if (priceInput) priceInput.value = getPrice(apartment);
 
         if (saveApartmentBtn) saveApartmentBtn.textContent = "Update Apartment";
         if (formSectionTitle) formSectionTitle.textContent = "Update Apartment";
@@ -172,12 +169,12 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadApartments() {
     try {
       const response = await fetch(`${API_BASE_URL}/apartments`);
-      const apartments = await response.json();
 
       if (!response.ok) {
         throw new Error("Failed to load apartments.");
       }
 
+      const apartments = await response.json();
       renderApartments(apartments);
     } catch (error) {
       if (apartmentsList) {

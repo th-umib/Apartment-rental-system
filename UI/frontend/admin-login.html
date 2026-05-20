@@ -1,132 +1,293 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>SmartApart | Admin Login</title>
 
-  <link rel="icon" href="./assets/favicon.png?v=3" type="image/png" />
-  <link rel="shortcut icon" href="./assets/favicon.png?v=3" type="image/png" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 38px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo h1 {
+      color: #0f172a;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: #2563eb;
+    }
+
+    .logo p {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .message {
+      display: none;
+      padding: 13px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #334155;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+
+    .login-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .back-link {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .back-link a {
+      color: #2563eb;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
-    <nav class="site-nav">
-  <a href="/" class="site-nav-btn">Home</a>
-  <a href="/apartments" class="site-nav-btn">Apartments</a>
-  <a href="/map" class="site-nav-btn">Map</a>
-  <a href="/agents" class="site-nav-btn">Agents</a>
-  <a href="/pricing" class="site-nav-btn">Pricing</a>
-  <a href="/blog" class="site-nav-btn">Blog</a>
-  <a href="/about" class="site-nav-btn">About</a>
-  <a href="/bookings" class="site-nav-btn">Bookings</a>
-  <a href="/inquiries" class="site-nav-btn">Inquiries</a>
-  <a href="/admin-login" class="site-nav-btn active">Admin</a>
-</nav>
+  <div class="login-box">
+    <div class="logo">
+      <h1>Smart<span>Apart</span></h1>
+      <p>Admin Login Panel</p>
+    </div>
 
-  <main class="admin-login-page">
+    <div id="loginMessage" class="message"></div>
 
-    <section class="admin-login-left">
-      <div class="admin-login-overlay"></div>
-
-      <a href="index.html" class="admin-login-brand">
-        <div class="site-brand-box">🏢</div>
-        <span>SmartApart</span>
-      </a>
-
-      <div class="admin-login-info">
-        <span class="section-tag">Admin Access</span>
-        <h1>Control the rental platform in one place</h1>
-        <p>
-          Manage apartments, review bookings, and handle user inquiries through
-          a clean and protected admin dashboard.
-        </p>
-
-        <div class="admin-login-features">
-          <div>Apartment listings</div>
-          <div>Booking requests</div>
-          <div>User inquiries</div>
-        </div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email i adminit</label>
+        <input type="email" id="email" placeholder="Shkruaj emailin" required />
       </div>
-    </section>
 
-    <section class="admin-login-right">
-      <div class="admin-login-card">
-
-        <a href="index.html" class="back-home-link">← Back to Home</a>
-
-        <div class="admin-login-header">
-          <span class="section-tag">Login</span>
-          <h2>Admin Login</h2>
-          <p>
-            Enter your admin credentials to continue to the dashboard.
-          </p>
-        </div>
-
-        <form id="admin-login-form" class="admin-login-form">
-          <div class="form-group">
-            <label for="admin-email">Email</label>
-            <input
-              type="email"
-              id="admin-email"
-              placeholder="Enter admin email"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="admin-password">Password</label>
-            <input
-              type="password"
-              id="admin-password"
-              placeholder="Enter password"
-              required
-            />
-          </div>
-
-          <button type="submit" class="btn btn-primary admin-login-btn">
-            Login to Dashboard
-          </button>
-
-          <p id="admin-login-message" class="admin-login-message"></p>
-        </form>
-
+      <div class="form-group">
+        <label for="password">Fjalëkalimi</label>
+        <input type="password" id="password" placeholder="Shkruaj fjalëkalimin" required />
       </div>
-    </section>
 
-  </main>
+      <button type="submit" class="login-btn">Hyr në Dashboard</button>
+    </form>
+
+    <div class="back-link">
+      <a href="index.html">← Kthehu te faqja kryesore</a>
+    </div>
+  </div>
 
   <script>
-    const adminLoginForm = document.getElementById("admin-login-form");
-    const adminLoginMessage = document.getElementById("admin-login-message");
+    const loginForm = document.getElementById("loginForm");
+    const loginMessage = document.getElementById("loginMessage");
 
     const ADMIN_EMAIL = "tringa.hyseni@umib.net";
     const ADMIN_PASSWORD = "12345678";
 
-    adminLoginForm.addEventListener("submit", function (event) {
+    function showMessage(text, type) {
+      loginMessage.textContent = text;
+      loginMessage.className = "message " + type;
+    }
+
+    loginForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const email = document.getElementById("admin-email").value.trim();
-      const password = document.getElementById("admin-password").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
       if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
         localStorage.setItem("smartapart_admin_logged_in", "true");
-        localStorage.setItem("smartapart_admin_email", email);
 
-        adminLoginMessage.textContent = "Login successful. Redirecting to dashboard...";
-        adminLoginMessage.className = "admin-login-message success";
+        showMessage("Hyrja u krye me sukses. Duke kaluar te dashboard...", "success");
 
         setTimeout(function () {
-          
-          window.location.href = "/admin";
-        }, 700);
+          window.location.href = "admin.html";
+        }, 800);
       } else {
-        adminLoginMessage.textContent = "Invalid email or password. Please try again.";
-        adminLoginMessage.className = "admin-login-message error";
+        showMessage("Email ose fjalëkalim i gabuar!", "error");
       }
     });
   </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButtons = document.querySelectorAll(
+      ".menu-btn, .hamburger, .hamburger-btn, .mobile-menu-btn, #menuBtn, #hamburgerBtn"
+    );
 
+    const menus = document.querySelectorAll(
+      ".mobile-menu, .nav-menu, .nav-links, .sidebar-menu, #mobileMenu, #navMenu"
+    );
+
+    const menuLinks = document.querySelectorAll(
+      ".mobile-menu a, .nav-menu a, .nav-links a, .sidebar-menu a, #mobileMenu a, #navMenu a"
+    );
+
+    function openMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.add("active");
+        menu.classList.add("open");
+        menu.classList.add("show");
+      });
+
+      document.body.classList.add("menu-open");
+    }
+
+    function closeMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.remove("active");
+        menu.classList.remove("open");
+        menu.classList.remove("show");
+      });
+
+      document.body.classList.remove("menu-open");
+    }
+
+    menuButtons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        let isOpen = false;
+
+        menus.forEach(function (menu) {
+          if (
+            menu.classList.contains("active") ||
+            menu.classList.contains("open") ||
+            menu.classList.contains("show")
+          ) {
+            isOpen = true;
+          }
+        });
+
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+    });
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener("click", function () {
+        closeMenu();
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      let clickedInsideMenu = false;
+      let clickedMenuButton = false;
+
+      menus.forEach(function (menu) {
+        if (menu.contains(event.target)) {
+          clickedInsideMenu = true;
+        }
+      });
+
+      menuButtons.forEach(function (button) {
+        if (button.contains(event.target)) {
+          clickedMenuButton = true;
+        }
+      });
+
+      if (!clickedInsideMenu && !clickedMenuButton) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  });
+</script>
 </body>
 </html>

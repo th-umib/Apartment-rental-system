@@ -23,7 +23,7 @@
   <a href="/about" class="site-nav-btn">About</a>
   <a href="/bookings" class="site-nav-btn">Bookings</a>
   <a href="/inquiries" class="site-nav-btn">Inquiries</a>
-  <a href="/admin-login" class="site-nav-btn">Admin</a>
+  <a href="admin-login.html" class="site-nav-btn">Admin</a>
 </nav>
   </header>
 
@@ -114,5 +114,189 @@
       <p>Apartment Rental Management System</p>
     </div>
   </footer>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButtons = document.querySelectorAll(
+      ".menu-btn, .hamburger, .hamburger-btn, .mobile-menu-btn, #menuBtn, #hamburgerBtn"
+    );
+
+    const menus = document.querySelectorAll(
+      ".mobile-menu, .nav-menu, .nav-links, .sidebar-menu, #mobileMenu, #navMenu"
+    );
+
+    const menuLinks = document.querySelectorAll(
+      ".mobile-menu a, .nav-menu a, .nav-links a, .sidebar-menu a, #mobileMenu a, #navMenu a"
+    );
+
+    function openMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.add("active");
+        menu.classList.add("open");
+        menu.classList.add("show");
+      });
+
+      document.body.classList.add("menu-open");
+    }
+
+    function closeMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.remove("active");
+        menu.classList.remove("open");
+        menu.classList.remove("show");
+      });
+
+      document.body.classList.remove("menu-open");
+    }
+
+    menuButtons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        let isOpen = false;
+
+        menus.forEach(function (menu) {
+          if (
+            menu.classList.contains("active") ||
+            menu.classList.contains("open") ||
+            menu.classList.contains("show")
+          ) {
+            isOpen = true;
+          }
+        });
+
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+    });
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener("click", function () {
+        closeMenu();
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      let clickedInsideMenu = false;
+      let clickedMenuButton = false;
+
+      menus.forEach(function (menu) {
+        if (menu.contains(event.target)) {
+          clickedInsideMenu = true;
+        }
+      });
+
+      menuButtons.forEach(function (button) {
+        if (button.contains(event.target)) {
+          clickedMenuButton = true;
+        }
+      });
+
+      if (!clickedInsideMenu && !clickedMenuButton) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButtons = document.querySelectorAll(
+      ".menu-btn, .hamburger, .hamburger-btn, .mobile-menu-btn, #menuBtn, #hamburgerBtn"
+    );
+
+    const menus = document.querySelectorAll(
+      ".mobile-menu, .nav-menu, .nav-links, .sidebar-menu, #mobileMenu, #navMenu"
+    );
+
+    const menuLinks = document.querySelectorAll(
+      ".mobile-menu a, .nav-menu a, .nav-links a, .sidebar-menu a, #mobileMenu a, #navMenu a"
+    );
+
+    function openMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.add("active");
+        menu.classList.add("open");
+        menu.classList.add("show");
+      });
+
+      document.body.classList.add("menu-open");
+    }
+
+    function closeMenu() {
+      menus.forEach(function (menu) {
+        menu.classList.remove("active");
+        menu.classList.remove("open");
+        menu.classList.remove("show");
+      });
+
+      document.body.classList.remove("menu-open");
+    }
+
+    menuButtons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        let isOpen = false;
+
+        menus.forEach(function (menu) {
+          if (
+            menu.classList.contains("active") ||
+            menu.classList.contains("open") ||
+            menu.classList.contains("show")
+          ) {
+            isOpen = true;
+          }
+        });
+
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+    });
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener("click", function () {
+        closeMenu();
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      let clickedInsideMenu = false;
+      let clickedMenuButton = false;
+
+      menus.forEach(function (menu) {
+        if (menu.contains(event.target)) {
+          clickedInsideMenu = true;
+        }
+      });
+
+      menuButtons.forEach(function (button) {
+        if (button.contains(event.target)) {
+          clickedMenuButton = true;
+        }
+      });
+
+      if (!clickedInsideMenu && !clickedMenuButton) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  });
+</script>
 </body>
 </html>
